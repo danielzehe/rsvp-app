@@ -1,0 +1,23 @@
+{
+  "name": "rsvp-app",
+  "version": "0.0.1",
+  "description": "Front-end Electron Application for managing RSVP-Engine events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielzehe/rsvp-app.git"
+  },
+  "author": "Daniel Zehe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielzehe/rsvp-app/issues"
+  },
+  "homepage": "https://github.com/danielzehe/rsvp-app#readme",
+  "dependencies": {
+    "electron": "^1.4.1"
+  }
+}
