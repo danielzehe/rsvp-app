@@ -55,7 +55,7 @@ exports.getGuests = () =>{
   });
 }
 exports.addGuest = () =>{
-  let addGuestWindow = new BrowserWindow({width:200,height:400});
+  let addGuestWindow = new BrowserWindow({width:300,height:700});
   addGuestWindow.loadURL(`file://${__dirname}/HTML/addGuestWindow.html`)
   addGuestWindow.on('closed',() =>{
     addGuestWindow= null;
