@@ -5,6 +5,7 @@
     <title>RSVP App</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../lib/photon-0.1-2.2-dist/css/photon.min.css">
+
   </head>
   <body>
   <div class="window">
@@ -15,32 +16,25 @@
       
     </div>
   </header>
+
   <div class="window-content">
     <div class="pane-group">
-      <div class="pane-sm sidebar">
+      <div class="pane-sm sidebar" id="app">
         <ul class="list-group">
         <li class="list-group-header">
-          <input class="form-control" type="text" placeholder="Search for someone">
+          <input class="form-control" type="text" placeholder="Search for someone" v-model="search">
         </li>
-        <li class="list-group-item">
-          <span class="icon icon-user pull-left" ></span>
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <span class="icon icon-user pull-left" ></span>
-          <div class="media-body">
-            <strong>List item title</strong>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </li>
-        </ul>
+        <guest-list-item v-for="guest in filteredData " v-bind:guest="guest"></guest-list-item>
+      </ul>
       </div>
-      <div class="pane">...</div>
+      <div class="pane">
+     </div>
     </div>
   </div>
 </div>
+
+
+
+    <script src="../js/main.js" charset="utf-8"></script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 const {app, BrowserWindow} = require('electron')
+const request = require('request')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,7 +13,7 @@ function createWindow () {
   win.loadURL(`file://${__dirname}/HTML/index.html`)
 
   // Open the DevTools.
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -44,3 +45,12 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+
+exports.getGuests = () =>{
+  request('http://localhost:3000/API/guests',function(err,res,body){
+      if (!err && res.statusCode == 200) {
+        win.webContents.send('guests', JSON.parse(body));
+      }
+  });
+}
