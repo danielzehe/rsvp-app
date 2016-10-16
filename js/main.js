@@ -1,6 +1,6 @@
 
 var Vue = require('../lib/vuejs/vue.js');
-var VueRouter = require('../lib/vuejs/vue-router.js');
+// var VueRouter = require('../lib/vuejs/vue-router.js');
 
 const {remote,ipcRenderer} =require('electron')
 const main = remote.require('./index.js')

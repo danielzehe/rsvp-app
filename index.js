@@ -5,6 +5,8 @@ const request = require('request')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
+let api_endpoint = 'http://192.168.1.17:3000/API'
+
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 800, height: 600,'accept-first-mouse':true,'titleBarStyle':'hidden'})
@@ -62,7 +64,7 @@ exports.openAddGuestWindow = () =>{
 exports.addGuest = (guest) =>{
   console.log(guest);
 
-  request.put({url:'http://localhost:3000/API/guest',body:guest,json:true},function(err,httpresponse,body){
+  request.put({url:api_endpoint+ '/guest',body:guest,json:true},function(err,httpresponse,body){
     console.log([err,httpresponse]);
     if(!err && httpresponse.statusCode == 200){
       console.log('added');
@@ -81,7 +83,7 @@ ipcMain.on('addGuest', (event, guest) => {
 
   // console.log(guest);
   // console.log(event);
-  request.put({url:'http://localhost:3000/API/guest',body:guest,json:true},function(err,httpresponse,body){
+  request.put({url:api_endpoint+ '/guest',body:guest,json:true},function(err,httpresponse,body){
     console.log([err,httpresponse]);
     if(!err && httpresponse.statusCode == 200){
       // console.log('added');
@@ -99,7 +101,7 @@ ipcMain.on('addGuest', (event, guest) => {
 
 const getGuestList = () => {
 
-   request('http://localhost:3000/API/guests',function(err,res,body){
+   request(api_endpoint+'/guests',function(err,res,body){
       if (!err && res.statusCode == 200) {
         win.webContents.send('guests', JSON.parse(body));
       }
