@@ -59,6 +59,10 @@ var v = new Vue({
   		// console.log(evt);
   		this.currentSelected = personID
   		
+  	},
+  	editGuest:function(personID){
+  		console.log(personID);
+  		main.openEditGuestWindow(personID);
   	}
   }
 });

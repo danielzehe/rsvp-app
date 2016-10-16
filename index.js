@@ -54,10 +54,28 @@ exports.getGuests = () =>{
  
 }
 exports.openAddGuestWindow = () =>{
-  let addGuestWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden'});
+  let addGuestWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden','accept-first-mouse':true});
   addGuestWindow.loadURL(`file://${__dirname}/HTML/addGuestWindow.html`)
   addGuestWindow.on('closed',() =>{
     addGuestWindow= null;
+  })
+}
+
+exports.openEditGuestWindow = function(personID) {
+  let editGuestWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden'});
+  editGuestWindow.loadURL(`file://${__dirname}/HTML/editGuestWindow.html`)
+  editGuestWindow.on('closed',()=>{
+    editGuestWindow = null
+  });
+  editGuestWindow.webContents.once('did-finish-load',()=>{
+
+  request.get(api_endpoint+'/guest/personID/b58/'+personID,function(err,res,body){
+    if(!err && res.statusCode == 200){
+      editGuestWindow.webContents.send('GuestData',JSON.parse(body));  
+    }
+  });
+
+    
   })
 }
 
@@ -93,6 +111,19 @@ ipcMain.on('addGuest', (event, guest) => {
        //update the list in the main window
        getGuestList()
 
+    }
+  })
+})
+
+
+ipcMain.on('editedGuest',(event,guest) =>{
+  console.log('sending guest update');
+  request.post({url:api_endpoint+'/guest/personID/b58/'+guest.personID,body:guest,json:true},function(err,httpresponse,body){
+    console.log([err,httpresponse]);
+    if(!err && httpresponse.statusCode == 200){
+      console.log('update great');
+      event.sender.executeJavaScript('window.close()');
+      getGuestList()
     }
   })
 })

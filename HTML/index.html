@@ -19,7 +19,7 @@
     </div>
   </header>
   <script type="text/x-template" id="hello-world-template">
-  <div>
+  <div style="flex:1 ">
     <h1>{{guest.name}} {{guest.surname}}</h1>
     
     <div style="display: flex;">
@@ -51,14 +51,23 @@
         <li class="list-group-header">
           <input class="form-control" type="text" placeholder="Search for someone" v-model="search">
         </li>
-        <li class="list-group-item" v-on:click="addGuest">
+        <li class="list-group-header" v-on:click="addGuest">
           <span class="icon icon-plus-squared" style="font-size: 15pt"></span><strong>Add Guest</strong>
         </li>
         <guest-list-item v-for="guest in filteredData " v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
       </ul>
       </div>
-      <div class="pane">
-        <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelected!=0"></guest-detail-view >
+      <div class="pane" style="display: flex;min-height: 100%;flex-direction: column;">
+        <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelected!=0">
+          
+        </guest-detail-view >
+        <footer class="toolbar toolbar-footer" style="flex: none">
+          <div class="toolbar-actions">
+            <button class="btn btn-default" v-on:click="editGuest(currentGuest.personID)">
+              Edit
+            </button>
+          </div>
+        </footer>
      </div>
     </div>
   </div>
