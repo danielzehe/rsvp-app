@@ -15,34 +15,34 @@
 
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" placeholder="Daniel">
+        <input type="text" class="form-control" placeholder="Daniel" v-model="guest.name">
       </div>
       
       <div class="form-group">
         <label>Family Name</label>
-        <input type="text" class="form-control" placeholder="Zehe">
+        <input type="text" class="form-control" placeholder="Zehe" v-model="guest.surname">
       </div>
       
       <div class="form-group">
         <label>Dietary Restrictions</label>
-        <input type="text" class="form-control" placeholder="no Pork">
+        <input type="text" class="form-control" placeholder="no Pork" v-model="guest.dietaryRestrictions">
       </div>
 
       <div class="form-group">
         <label>Invited To:</label>
         <div class="checkbox">
           <label>
-            <input type="checkbox"> Singapore Reception
+            <input type="checkbox" value="SGS" v-model="guest.invitedto"> Singapore Reception
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox"> Singapore Solemnization
+            <input type="checkbox" value="SG" v-model="guest.invitedto"> Singapore Solemnization
           </label>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox"> Germany
+            <input type="checkbox" value="DE" v-model="guest.invitedto"> Germany
           </label>
         </div>
       </div>
@@ -50,13 +50,13 @@
         <label>Side of the Family/Friends</label>
         <div class="radio">
           <label>
-            <input type="radio" name="radios" checked>
+            <input type="radio" name="radios" value="2" v-model="guest.familyside">
             Daniel
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="radios">
+            <input type="radio" name="radios" value="1" v-model="guest.familyside">
             Xiu Fen
           </label>
         </div>
@@ -66,39 +66,41 @@
 
       <div class="form-group">
         <label>Street</label>
-        <input type="text" class="form-control" placeholder="3 Chwee Chian Road">
+        <input type="text" class="form-control" placeholder="3 Chwee Chian Road" v-model="guest.contact.address.street_1">
       </div>
       <div class="form-group">
         <label>Additional Information</label>
-        <input type="text" class="form-control" placeholder="#04-03">
+        <input type="text" class="form-control" placeholder="#04-03" v-model="guest.contact.address.street_2">
       </div>
       <div class="form-group">
         <label>Postal Code</label>
-        <input type="text" class="form-control" placeholder="119745">
+        <input type="text" class="form-control" placeholder="119745" v-model="guest.contact.address.postalcode">
       </div>
       <div class="form-group">
         <label>City</label>
-        <input type="text" class="form-control" placeholder="Singapore">
+        <input type="text" class="form-control" placeholder="Singapore" v-model="guest.contact.address.city">
       </div>
       <div class="form-group">
         <label>Country</label>
-        <input type="text" class="form-control" placeholder="Singapore">
+        <input type="text" class="form-control" placeholder="Singapore" v-model="guest.contact.address.country">
       </div>
 
       <div class="form-group">
         <label>Email </label>
-        <input type="email" class="form-control" placeholder="mail@daniel-zehe.de">
+        <input type="email" class="form-control" placeholder="mail@daniel-zehe.de" v-model="guest.contact.email">
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="text" class="form-control" placeholder="+6591032480">
+        <input type="text" class="form-control" placeholder="+6591032480" v-model="guest.contact.phone">
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-default">Cancel</button>
-        <button type="submit" class="btn btn-form btn-primary">OK</button>
+                <button class="btn btn-form btn-default" v-on:click="reset">Cancel</button>
+        <button class="btn btn-form btn-primary" v-on:click="addGuest">OK</button>
       </div>
     </form>
+
     </div>
+
   </div>
 
 

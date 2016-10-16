@@ -20,7 +20,8 @@ var v = new Vue({
   el: '#app',
   data:{
   	guests:[],
-  	search:''
+  	search:'',
+  	currentSelected:''
   },
   computed:{
   	filteredData:function(){
@@ -34,11 +35,30 @@ var v = new Vue({
   			})
   		}
   		return data
+  	},
+  	currentGuest: function(){
+
+  		if(this.currentSelected==0){
+  			return this.guests[0];
+  		}
+  		else{
+  			let data = this.guests
+  			let currentpersonID = this.currentSelected
+	  		return data.find(function(guest){
+	  			return guest.personID == currentpersonID;
+	  		});
+  		}
   	}
   },
   methods:{
   	addGuest:function(){
-  		main.addGuest();
+  		main.openAddGuestWindow();
+  	},
+  	selectedGuest:function(personID){
+  		// console.log('clicked');
+  		// console.log(evt);
+  		this.currentSelected = personID
+  		
   	}
   }
 });
@@ -47,8 +67,35 @@ Vue.component('guest-list-item', {
   // The todo-item component now accepts a
   // "prop", which is like a custom attribute.
   // This prop is called todo.
+  name:"guest-list-item",
   props: ['guest'],
-  template: '<li class="list-group-item"><span class="icon icon-user" ></span><strong>{{guest.name}} {{guest.surname}}</strong></li>',
+  template: '<li class="list-group-item" v-bind:value="guest.personID" v-on:click="clicking"><span class="icon icon-user" v-bind:value="guest.personID"></span><strong v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></li>',
+  methods: {
+    clicking: function (event) {
+      // this.counter += 1
+      // console.log('click '+ event.target.value);
+
+      this.$emit('clicking',event.target.value);
+    }
+  }
 })
 
-
+Vue.component('guest-detail-view',{
+	props:['guest'],
+	template:'#hello-world-template',
+	methods: {
+		getFlags: function(){
+			let emojies = this.guest.invitedto.map((element)=>{
+				switch(element){
+					case 'SGS':
+						return "🇸🇬💒";
+					case 'SG':
+						return "🇸🇬🎉";
+					case 'DE':
+						return "🇩🇪🎉"
+				}
+			});
+			return emojies;
+		}
+	}
+})

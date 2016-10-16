@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow,ipcMain} = require('electron')
 const request = require('request')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -48,16 +48,60 @@ app.on('activate', () => {
 
 
 exports.getGuests = () =>{
-  request('http://localhost:3000/API/guests',function(err,res,body){
-      if (!err && res.statusCode == 200) {
-        win.webContents.send('guests', JSON.parse(body));
-      }
-  });
+  getGuestList()
+ 
 }
-exports.addGuest = () =>{
+exports.openAddGuestWindow = () =>{
   let addGuestWindow = new BrowserWindow({width:300,height:700});
   addGuestWindow.loadURL(`file://${__dirname}/HTML/addGuestWindow.html`)
   addGuestWindow.on('closed',() =>{
     addGuestWindow= null;
   })
+}
+
+exports.addGuest = (guest) =>{
+  console.log(guest);
+
+  request.put({url:'http://localhost:3000/API/guest',body:guest,json:true},function(err,httpresponse,body){
+    console.log([err,httpresponse]);
+    if(!err && httpresponse.statusCode == 200){
+      console.log('added');
+
+    }
+  })
+}
+
+
+ipcMain.on('addGuestClose',(event,args) => {
+    // console.log(event.sender);
+    event.sender.executeJavaScript('window.close()');
+})
+
+ipcMain.on('addGuest', (event, guest) => {
+
+  // console.log(guest);
+  // console.log(event);
+  request.put({url:'http://localhost:3000/API/guest',body:guest,json:true},function(err,httpresponse,body){
+    console.log([err,httpresponse]);
+    if(!err && httpresponse.statusCode == 200){
+      // console.log('added');
+       // close the add window
+       event.sender.executeJavaScript('window.close()');
+
+       //update the list in the main window
+       getGuestList()
+
+    }
+  })
+})
+
+//functions
+
+const getGuestList = () => {
+
+   request('http://localhost:3000/API/guests',function(err,res,body){
+      if (!err && res.statusCode == 200) {
+        win.webContents.send('guests', JSON.parse(body));
+      }
+  });
 }

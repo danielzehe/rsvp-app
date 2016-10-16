@@ -18,10 +18,16 @@
       </div>      
     </div>
   </header>
+  <script type="text/x-template" id="hello-world-template">
+  <div>
+  <h1>{{guest.name}} {{guest.surname}}</h1>
+  <span v-for="invitedto in getFlags()">{{invitedto}} </span> 
+  </div>
+  </script>
 
-  <div class="window-content">
-    <div class="pane-group">
-      <div class="pane-sm sidebar" id="app">
+  <div class="window-content" id="app" >
+    <div class="pane-group" >
+      <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
           <input class="form-control" type="text" placeholder="Search for someone" v-model="search">
@@ -29,10 +35,11 @@
         <li class="list-group-item" v-on:click="addGuest">
           <span class="icon icon-plus-squared" style="font-size: 15pt"></span><strong>Add Guest</strong>
         </li>
-        <guest-list-item v-for="guest in filteredData " v-bind:guest="guest"></guest-list-item>
+        <guest-list-item v-for="guest in filteredData " v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
       </ul>
       </div>
       <div class="pane">
+        <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelected!=0"></guest-detail-view >
      </div>
     </div>
   </div>
