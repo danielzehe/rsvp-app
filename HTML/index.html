@@ -20,8 +20,27 @@
   </header>
   <script type="text/x-template" id="hello-world-template">
   <div>
-  <h1>{{guest.name}} {{guest.surname}}</h1>
-  <span v-for="invitedto in getFlags()">{{invitedto}} </span> 
+    <h1>{{guest.name}} {{guest.surname}}</h1>
+    
+    <div style="display: flex;">
+      <div style="flex-grow: 1">
+        <h3>Address</h3>
+        {{guest.contact.address.street_1}}<br/>
+        {{guest.contact.address.street_2}}
+
+        <span>{{guest.contact.address.city}} {{guest.contact.address.postalcode}}</span><br/>
+        {{guest.contact.address.country}}
+      </div>
+      <div style="flex-grow: 1">
+        <h3>Contact</h3>
+        Phone: {{guest.contact.phone}}<br/>
+        Email: {{guest.contact.email}}
+      </div>
+      <div style="flex-grow: 1">
+        <h3>Status</h3>
+        <span v-for="invitedto in getFlags()">{{invitedto}}</span>
+      </div>
+    </div>
   </div>
   </script>
 
