@@ -1,5 +1,6 @@
 
 var Vue = require('../lib/vuejs/vue.js');
+var qr = require('qr-encode');
 // var VueRouter = require('../lib/vuejs/vue-router.js');
 
 const {remote,ipcRenderer} =require('electron')
@@ -100,6 +101,9 @@ Vue.component('guest-detail-view',{
 				}
 			});
 			return emojies;
+		},
+		getQRdata: function(){
+			return qr("http://192.168.1.17:3000/api/guest/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
 		}
 	}
 })

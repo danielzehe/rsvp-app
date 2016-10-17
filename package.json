@@ -19,6 +19,7 @@
   "homepage": "https://github.com/danielzehe/rsvp-app#readme",
   "dependencies": {
     "electron": "^1.4.1",
+    "qr-encode": "^0.3.0",
     "request": "^2.75.0"
   }
 }
