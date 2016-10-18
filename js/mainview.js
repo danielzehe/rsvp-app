@@ -7,26 +7,34 @@ const {remote,ipcRenderer} =require('electron')
 const main = remote.require('./index.js')
 
 
-let guests = main.getGuests();
+main.getGuests();
+
+main.getInvitations();
+
 
 ipcRenderer.on('guests',(evt, body)=>{
 	// console.log(body)
-
 	v.guests = body;
 })
 
+ipcRenderer.on('invitations',(evt,body)=>{
+  v.invitations = body;
+})
 
-console.log(guests);
+
+// console.log(guests);
 var v = new Vue({
   el: '#app',
   data:{
   	guests:[],
-  	search:'',
+    invitations:[],
+  	searchGuests:'',
+    searchInvitations:'',
   	currentSelected:''
   },
   computed:{
-  	filteredData:function(){
-  		var filterKey = this.search && this.search.toLowerCase()
+  	filteredGuestData:function(){
+  		var filterKey = this.searchGuests && this.searchGuests.toLowerCase()
   		var data = this.guests;
   		if(filterKey){
   			data = data.filter(function(row){
@@ -35,8 +43,20 @@ var v = new Vue({
   				})
   			})
   		}
-  		return data
+  		return data;
   	},
+    filteredInvitationData: function(){
+      var filterKey = this.searchInvitations && this.searchInvitations.toLowerCase()
+      var data = this.invitations;
+      if(filterKey){
+        data = data.filter(function(row){
+          return Object.keys(row).some(function (key){
+            return String(row[key]).toLowerCase().indexOf(filterKey)>-1
+          })
+        })
+      }
+      return data;
+    },
   	currentGuest: function(){
 
   		if(this.currentSelected==0){
@@ -84,6 +104,27 @@ Vue.component('guest-list-item', {
     }
   }
 })
+
+Vue.component('invitation-list-item', {
+  // The todo-item component now accepts a
+  // "prop", which is like a custom attribute.
+  // This prop is called todo.
+  name:"invitation-list-item",
+  props: ['invitation'],
+  // template: '<li class="list-group-item" v-bind:value="guest.personID" v-on:click="clicking"><span class="icon icon-user" v-bind:value="guest.personID"></span><strong v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></li>',
+  template: '<li class="list-group-item"><span class="icon icon-users"></span>{{invitation.invitationName}}</li>',
+  methods: {
+    clicking: function (event) {
+      // this.counter += 1
+      // console.log('click '+ event.target.value);
+
+      this.$emit('clicking',event.target.value);
+    }
+  }
+})
+
+
+
 
 Vue.component('guest-detail-view',{
 	props:['guest'],

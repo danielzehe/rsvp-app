@@ -48,17 +48,25 @@
     </div>
   </header>
   
-  <div class="window-content"  >
-    <div class="pane-group" >
+  <div class="window-content">
+    <div class="pane-group">
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
-          <input class="form-control" type="text" placeholder="Search for someone" v-model="search">
+          <input class="form-control" type="text" placeholder="Search for someone" v-model="searchGuests">
         </li>
         <li class="list-group-header" v-on:click="addGuest">
           <span class="icon icon-plus-squared" style="font-size: 15pt"></span><strong>Add Guest</strong>
         </li>
-        <guest-list-item v-for="guest in filteredData " v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
+        <guest-list-item v-for="guest in filteredGuestData " v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
+      </ul>
+      </div>
+      <div class="pane-sm sidebar" style="overflow-y: scroll;">
+        <ul class="list-group">
+        <li class="list-group-header">
+          <input class="form-control" type="text" placeholder="Search for someone" v-model="searchInvitations">
+        </li>
+        <invitation-list-item v-for="invitation in filteredInvitationData " v-bind:invitation="invitation" v-on:clicking="selectedGuest"></invitation-list-item>
       </ul>
       </div>
       <div class="pane" style="display: flex;min-height: 100%;flex-direction: column;">
@@ -79,6 +87,6 @@
 
 
 
-    <script src="../js/main.js" charset="utf-8"></script>
+    <script src="../js/mainview.js" charset="utf-8"></script>
   </body>
 </html>

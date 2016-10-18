@@ -12,7 +12,7 @@ function createWindow () {
   win = new BrowserWindow({width: 800, height: 600,'accept-first-mouse':true,'titleBarStyle':'hidden'})
 
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/HTML/index.html`)
+  win.loadURL(`file://${__dirname}/HTML/main.html`)
 
   // Open the DevTools.
   win.webContents.openDevTools()
@@ -48,7 +48,10 @@ app.on('activate', () => {
   }
 })
 
-
+exports.getInvitations = () =>{
+  console.log('invites requested');
+  getInvitationList()
+}
 exports.getGuests = () =>{
   getGuestList()
  
@@ -137,4 +140,12 @@ const getGuestList = () => {
         win.webContents.send('guests', JSON.parse(body));
       }
   });
+}
+
+const getInvitationList = () =>{
+   request(api_endpoint+'/invitations',function(err,res,body){
+      if (!err && res.statusCode == 200) {
+        win.webContents.send('invitations', JSON.parse(body));
+      }
+  }); 
 }
