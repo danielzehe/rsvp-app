@@ -9,16 +9,6 @@
 
   </head>
   <body>
-  <div class="window">
-  <header class="toolbar toolbar-header" style="-webkit-app-region: drag">
-  <h1 class="title">RSVP App</h1>
-    <div class="toolbar-actions">
-      <div class="btn-group">
-        <button><span class="icon icon-users"></span>Invitations</button>
-        <button><span class="icon icon-user"></span>Guests</button>
-      </div>      
-    </div>
-  </header>
   <script type="text/x-template" id="hello-world-template">
   <div style="flex:1 ">
     <div style="display: flex;">
@@ -47,7 +37,18 @@
   </div>
   </script>
 
-  <div class="window-content" id="app" >
+  <div class="window" id="app">
+  <header class="toolbar toolbar-header" style="-webkit-app-region: drag">
+  <h1 class="title">RSVP App</h1>
+    <div class="toolbar-actions">
+      <div class="btn-group">
+        <button><span class="icon icon-users"></span>Invitations</button>
+        <button><span class="icon icon-user"></span>{{guests.length}} Guests</button>
+      </div>      
+    </div>
+  </header>
+  
+  <div class="window-content"  >
     <div class="pane-group" >
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
