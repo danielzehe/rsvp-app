@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RSVP App</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../lib/photon-0.1-2.2-dist/css/photon.min.css">
+
+  </head>
+  <body>
+  <div class="window" id="app" style="-webkit-app-region: drag">
+    <div class="window-content"  >
+      <form>
+        <h3>Basic Info</h3>
+        <div class="form-group">
+          <label>Invitation Name</label>
+          <input type="text" class="form-control" placeholder="Lim Family" v-model="invitation.invitationName">
+        </div>
+        <h3>Guests</h3>
+        <div >
+        <table class="table-striped" @dragover.prevent @drop="drop">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Surname</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="guest in invitation.guests">
+            <td>{{guest.name}}</td>
+            <td>{{guest.surname}}</td>
+          </tr>
+        </tbody>
+      </table>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-form btn-default" >Cancel</button>
+          <button class="btn btn-form btn-primary" >OK</button>
+      </div>
+      </form>
+
+    </div>
+
+  </div>
+
+
+    <script src="../js/addInvitationWindow.js" charset="utf-8"></script>
+  </body>
+</html>

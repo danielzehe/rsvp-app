@@ -42,8 +42,11 @@
   <h1 class="title">RSVP App</h1>
     <div class="toolbar-actions">
       <div class="btn-group">
-        <button><span class="icon icon-users"></span>Invitations</button>
+        <button><span class="icon icon-users"></span>{{invitations.length}} Invitations</button>
         <button><span class="icon icon-user"></span>{{guests.length}} Guests</button>
+
+        <button v-on:click="addGuest"><span class="icon icon-plus" ></span> Guest</button>
+        <button v-on:click="addInvitation"><span class="icon icon-plus" ></span> Invitation</button>
       </div>      
     </div>
   </header>
@@ -55,10 +58,7 @@
         <li class="list-group-header">
           <input class="form-control" type="text" placeholder="Search for someone" v-model="searchGuests">
         </li>
-        <li class="list-group-header" v-on:click="addGuest">
-          <span class="icon icon-plus-squared" style="font-size: 15pt"></span><strong>Add Guest</strong>
-        </li>
-        <guest-list-item v-for="guest in filteredGuestData " v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
+        <guest-list-item v-for="guest in filteredGuestData " v-bind:isactive="isGuestActive(guest.personID)" v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
       </ul>
       </div>
       <div class="pane-sm sidebar" style="overflow-y: scroll;">

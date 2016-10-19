@@ -75,6 +75,9 @@ var v = new Vue({
   	addGuest:function(){
   		main.openAddGuestWindow();
   	},
+    addInvitation:function(){
+      main.openAddInvitationWindow();
+    },
   	selectedGuest:function(personID){
   		// console.log('clicked');
   		// console.log(evt);
@@ -84,8 +87,11 @@ var v = new Vue({
   	editGuest:function(personID){
   		console.log(personID);
   		main.openEditGuestWindow(personID);
-  	}
-  }
+  	},
+    isGuestActive: function(personID){
+      return this.currentSelected==personID;
+    }
+   }
 });
 
 Vue.component('guest-list-item', {
@@ -93,15 +99,20 @@ Vue.component('guest-list-item', {
   // "prop", which is like a custom attribute.
   // This prop is called todo.
   name:"guest-list-item",
-  props: ['guest'],
-  template: '<li class="list-group-item" v-bind:value="guest.personID" v-on:click="clicking"><span class="icon icon-user" v-bind:value="guest.personID"></span><strong v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></li>',
+  props: ['guest','isactive'],
+  template: '<li draggable="true" @dragstart="start" class="list-group-item" v-bind:class="{active:isactive}" style="padding:2px 5px;"  v-on:click="clicking"><div v-bind:value="guest.personID"><strong  v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></div></li>',
   methods: {
     clicking: function (event) {
       // this.counter += 1
       // console.log('click '+ event.target.value);
-
+    event.preventDefault();
       this.$emit('clicking',event.target.value);
+    },
+    start: function(event){
+      event.dataTransfer.setData("application/json",JSON.stringify(this.guest));
     }
+
+    
   }
 })
 

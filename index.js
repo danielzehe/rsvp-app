@@ -49,7 +49,6 @@ app.on('activate', () => {
 })
 
 exports.getInvitations = () =>{
-  console.log('invites requested');
   getInvitationList()
 }
 exports.getGuests = () =>{
@@ -63,7 +62,6 @@ exports.openAddGuestWindow = () =>{
     addGuestWindow= null;
   })
 }
-
 exports.openEditGuestWindow = function(personID) {
   let editGuestWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden'});
   editGuestWindow.loadURL(`file://${__dirname}/HTML/editGuestWindow.html`)
@@ -71,17 +69,13 @@ exports.openEditGuestWindow = function(personID) {
     editGuestWindow = null
   });
   editGuestWindow.webContents.once('did-finish-load',()=>{
-
-  request.get(api_endpoint+'/guest/personID/b58/'+personID,function(err,res,body){
-    if(!err && res.statusCode == 200){
-      editGuestWindow.webContents.send('GuestData',JSON.parse(body));  
-    }
-  });
-
-    
-  })
+      request.get(api_endpoint+'/guest/personID/b58/'+personID,function(err,res,body){
+        if(!err && res.statusCode == 200){
+          editGuestWindow.webContents.send('GuestData',JSON.parse(body));  
+        }
+    });
+   })
 }
-
 exports.addGuest = (guest) =>{
   console.log(guest);
 
@@ -94,6 +88,13 @@ exports.addGuest = (guest) =>{
   })
 }
 
+exports.openAddInvitationWindow = () =>{
+    let addInvitationWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden','accept-first-mouse':true});
+  addInvitationWindow.loadURL(`file://${__dirname}/HTML/addInvitationWindow.html`)
+  addInvitationWindow.on('closed',() =>{
+    addInvitationWindow= null;
+  })
+}
 
 ipcMain.on('addGuestClose',(event,args) => {
     // console.log(event.sender);
