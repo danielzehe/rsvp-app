@@ -9,7 +9,7 @@
 
   </head>
   <body>
-  <script type="text/x-template" id="hello-world-template">
+  <script type="text/x-template" id="guest-detail-view-template">
   <div style="flex:1 ">
     <div style="display: flex;">
       <h1 style="flex:1">{{guest.name}} {{guest.surname}}</h1>
@@ -37,6 +37,16 @@
   </div>
   </script>
 
+  <script type="text/x-template" id="invitation-detail-view-template">
+    <div style="flex:1 ">
+      <div style="display: flex;">
+        <h1 style="flex:1">{{invitation.invitationName}}</h1>
+        
+      </div>
+      <guest-detail-view style="border-bottom: 1px solid black" v-for="guest in usedguests" v-bind:guest="guest"></guest-detail-view>
+    </div>
+  </script>
+
   <div class="window" id="app">
   <header class="toolbar toolbar-header" style="-webkit-app-region: drag">
   <h1 class="title">RSVP App</h1>
@@ -47,7 +57,9 @@
 
         <button v-on:click="addGuest"><span class="icon icon-plus" ></span> Guest</button>
         <button v-on:click="addInvitation"><span class="icon icon-plus" ></span> Invitation</button>
-      </div>      
+
+      </div>
+      <input class="pull-right" type="text" placeholder="Search" v-model="searchText">      
     </div>
   </header>
   
@@ -56,7 +68,7 @@
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
-          <input class="form-control" type="text" placeholder="Search for someone" v-model="searchGuests">
+          <STRONG>Guests</STRONG>
         </li>
         <guest-list-item v-for="guest in filteredGuestData " v-bind:isactive="isGuestActive(guest.personID)" v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
       </ul>
@@ -64,18 +76,23 @@
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
-          <input class="form-control" type="text" placeholder="Search for someone" v-model="searchInvitations">
+          <STRONG>Invitations</STRONG>
         </li>
-        <invitation-list-item v-for="invitation in filteredInvitationData " v-bind:invitation="invitation" v-on:clicking="selectedGuest"></invitation-list-item>
+        <invitation-list-item v-for="invitation in filteredInvitationData " v-bind:invitation="invitation" v-on:clicking="selectedInvitation"></invitation-list-item>
       </ul>
       </div>
       <div class="pane" style="display: flex;min-height: 100%;flex-direction: column;">
-        <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelected!=0">
-          
+        <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelectedGuestID!=''">
         </guest-detail-view >
-        <footer class="toolbar toolbar-footer" style="flex: none">
+
+        <invitation-detail-view v-bind:invitation="currentInvitation" v-bind:usedguests="guestsinInvitation" v-if="currentSelectedInvitationID!=''"></invitation-detail-view>
+
+        <footer class="toolbar toolbar-footer" style="flex: none" >
           <div class="toolbar-actions">
-            <button class="btn btn-default" v-on:click="editGuest(currentGuest.personID)">
+            <button class="btn btn-default" v-on:click="editGuest(currentGuest.personID)" v-if="currentSelectedGuestID!=''">
+              Edit
+            </button>
+              <button class="btn btn-default" v-on:click="editInvitation(currentInvitation.personID)" v-if="currentSelectedInvitationID!=''">
               Edit
             </button>
           </div>

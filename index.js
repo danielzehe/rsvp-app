@@ -132,6 +132,25 @@ ipcMain.on('editedGuest',(event,guest) =>{
   })
 })
 
+
+
+ipcMain.on('addInvitation',(event,invitation) =>{
+  console.log("add invitation");
+  request.put({url:api_endpoint+ '/invitation',body:invitation,json:true},function(err,httpresponse,body){
+    console.log([err,httpresponse]);
+    if(!err && httpresponse.statusCode == 200){
+      // console.log('added');
+       // close the add window
+       event.sender.executeJavaScript('window.close()');
+
+       //update the list in the main window
+       getInvitationList()
+
+    }
+  })
+});
+
+
 //functions
 
 const getGuestList = () => {

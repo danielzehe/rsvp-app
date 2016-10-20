@@ -5,7 +5,19 @@
     <title>RSVP App</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../lib/photon-0.1-2.2-dist/css/photon.min.css">
-
+    <style type="text/css">
+      input[type="checkbox"]{
+        display: none;
+      }
+      input[type="checkbox"] + span  {
+          /*display:inline-block;*/
+          font-size: 20pt;
+      }
+      input[type="checkbox"]:checked + span  {
+        /*display:inline-block;*/
+        font-size: 30pt;
+    }
+    </style>
   </head>
   <body>
   <div class="window" id="app" style="-webkit-app-region: drag">
@@ -16,6 +28,32 @@
           <label>Invitation Name</label>
           <input type="text" class="form-control" placeholder="Lim Family" v-model="invitation.invitationName">
         </div>
+
+
+      <div class="form-group">
+        <label>Languages:</label>
+          <div style="display: flex;">
+          <div class="checkbox" style="flex-grow: 1">
+          <label>
+              <input type="checkbox" value="de" v-model="invitation.lang">
+              <span>🇩🇪</span>
+            </label>
+          </div>
+          <div class="checkbox" style="flex-grow: 1">
+            <label>
+              <input type="checkbox" value="en" v-model="invitation.lang">
+              <span>🇬🇧</span>
+            </label>
+          </div>
+          <div class="checkbox" style="flex-grow: 1">
+              <label>
+              <input type="checkbox" value="cn" v-model="invitation.lang">
+              <span>🇨🇳</span> 
+            </label>
+          </div>
+        </div>
+      </div>
+
         <h3>Guests</h3>
         <div >
         <table class="table-striped" @dragover.prevent @drop="drop">
@@ -35,7 +73,7 @@
         </div>
         <div class="form-actions">
           <button class="btn btn-form btn-default" >Cancel</button>
-          <button class="btn btn-form btn-primary" >OK</button>
+          <button class="btn btn-form btn-primary" v-on:click="addInvitation">OK</button>
       </div>
       </form>
 

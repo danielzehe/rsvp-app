@@ -28,13 +28,14 @@ var v = new Vue({
   data:{
   	guests:[],
     invitations:[],
-  	searchGuests:'',
+  	searchText:'',
     searchInvitations:'',
-  	currentSelected:''
+  	currentSelectedGuestID:'',
+    currentSelectedInvitationID:''
   },
   computed:{
   	filteredGuestData:function(){
-  		var filterKey = this.searchGuests && this.searchGuests.toLowerCase()
+  		var filterKey = this.searchText && this.searchText.toLowerCase()
   		var data = this.guests;
   		if(filterKey){
   			data = data.filter(function(row){
@@ -46,7 +47,7 @@ var v = new Vue({
   		return data;
   	},
     filteredInvitationData: function(){
-      var filterKey = this.searchInvitations && this.searchInvitations.toLowerCase()
+      var filterKey = this.searchText && this.searchText.toLowerCase()
       var data = this.invitations;
       if(filterKey){
         data = data.filter(function(row){
@@ -57,19 +58,46 @@ var v = new Vue({
       }
       return data;
     },
+    guestsinInvitation:function(){
+      let guestdata = this.guests
+      if(this.currentInvitation===undefined){
+        return [];
+      }
+      let guestIDs = this.currentInvitation.guests
+      returndata = guestdata.filter(function(guest){
+        for (let personID of guestIDs) {
+          if(personID==guest.personID){
+            return true;
+          }
+        }
+      });
+      return returndata;
+    },
   	currentGuest: function(){
 
-  		if(this.currentSelected==0){
+  		if(this.currentSelectedGuestID==''){
   			return this.guests[0];
   		}
   		else{
   			let data = this.guests
-  			let currentpersonID = this.currentSelected
+  			let currentpersonID = this.currentSelectedGuestID
 	  		return data.find(function(guest){
 	  			return guest.personID == currentpersonID;
 	  		});
   		}
-  	}
+  	},
+    currentInvitation: function(){
+      if(this.currentSelectedInvitationID==''){
+        return this.invitations[0];
+      }
+      else {
+        let data = this.invitations
+        let currentinvitationID = this.currentSelectedInvitationID
+        return data.find(function(invitation){
+          return invitation.inviteID == currentinvitationID;
+        });
+      }
+    }
   },
   methods:{
   	addGuest:function(){
@@ -81,15 +109,22 @@ var v = new Vue({
   	selectedGuest:function(personID){
   		// console.log('clicked');
   		// console.log(evt);
-  		this.currentSelected = personID
+  		this.currentSelectedGuestID = personID
+      this.currentSelectedInvitationID = '';
   		
   	},
+    selectedInvitation:function(invitationID){
+      // console.log('clicked');
+      // console.log(evt);
+      this.currentSelectedInvitationID = invitationID
+      this.currentSelectedGuestID = '';
+    },
   	editGuest:function(personID){
   		console.log(personID);
   		main.openEditGuestWindow(personID);
   	},
     isGuestActive: function(personID){
-      return this.currentSelected==personID;
+      return this.currentSelectedGuestID==personID;
     }
    }
 });
@@ -105,7 +140,7 @@ Vue.component('guest-list-item', {
     clicking: function (event) {
       // this.counter += 1
       // console.log('click '+ event.target.value);
-    event.preventDefault();
+      event.preventDefault();
       this.$emit('clicking',event.target.value);
     },
     start: function(event){
@@ -123,7 +158,7 @@ Vue.component('invitation-list-item', {
   name:"invitation-list-item",
   props: ['invitation'],
   // template: '<li class="list-group-item" v-bind:value="guest.personID" v-on:click="clicking"><span class="icon icon-user" v-bind:value="guest.personID"></span><strong v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></li>',
-  template: '<li class="list-group-item"><span class="icon icon-users"></span>{{invitation.invitationName}}</li>',
+  template: '<li class="list-group-item" v-on:click="clicking"><div v-bind:value="invitation.inviteID"><span class="icon icon-users" ></span> {{invitation.invitationName}}</div></li>',
   methods: {
     clicking: function (event) {
       // this.counter += 1
@@ -139,7 +174,7 @@ Vue.component('invitation-list-item', {
 
 Vue.component('guest-detail-view',{
 	props:['guest'],
-	template:'#hello-world-template',
+	template:'#guest-detail-view-template',
 	methods: {
 		getFlags: function(){
 			let emojies = this.guest.invitedto.map((element)=>{
@@ -158,4 +193,9 @@ Vue.component('guest-detail-view',{
 			return qr("http://192.168.1.17:3000/api/guest/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
 		}
 	}
+})
+
+Vue.component('invitation-detail-view',{
+  props:['invitation','usedguests'],
+  template:'#invitation-detail-view-template',
 })

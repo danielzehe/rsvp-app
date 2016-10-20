@@ -7,7 +7,8 @@ var v = new Vue({
   data:{
   	invitation:{
       invitationName:'',
-      guests:[]
+      guests:[],
+      lang:[]
     }
   	
   },
@@ -16,6 +17,23 @@ var v = new Vue({
       
       this.invitation.guests.push(JSON.parse(e.dataTransfer.getData("application/json")));
       console.log('great');
-    }
+    },
+    addInvitation: function(e){
+      e.preventDefault();
+      console.log(this.guest);
+      // main.addGuest(this.guest);
+
+      let guestIDarray = this.invitation.guests.map(function(guest){
+        return guest.personID;
+      });
+
+      let invitationObject = this.invitation;
+      invitationObject.guests = guestIDarray;
+
+      ipcRenderer.send('addInvitation',invitationObject);
+    },
+    reset: function(){
+      ipcRenderer.send('addInvitationClose');
+    }   
   }
 });
