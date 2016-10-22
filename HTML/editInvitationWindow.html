@@ -68,7 +68,7 @@
           <tr v-for="guest in invitation.guests">
             <td>{{guest.name}}</td>
             <td>{{guest.surname}}</td>
-             <td><span class="icon icon-minus-squared" v-on:click="removeGuest(guest.personID)"></span></td>
+            <td><span class="icon icon-minus-squared" v-on:click="removeGuest(guest.personID)"></span></td>
           </tr>
         </tbody>
       </table>
@@ -84,6 +84,6 @@
   </div>
 
 
-    <script src="../js/addInvitationWindow.js" charset="utf-8"></script>
+    <script src="../js/editInvitationWindow.js" charset="utf-8"></script>
   </body>
 </html>

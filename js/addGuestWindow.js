@@ -34,7 +34,7 @@ var v = new Vue({
   		ipcRenderer.send('addGuest',this.guest);
   	},
   	reset: function(){
-  		ipcRenderer.send('addGuestClose');
+  		ipcRenderer.send('WindowClose');
   	}		
   }
 });

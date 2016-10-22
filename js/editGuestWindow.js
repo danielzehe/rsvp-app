@@ -42,7 +42,7 @@ var v = new Vue({
   		ipcRenderer.send('editedGuest',this.guest);
   	},
   	reset: function(){
-  		ipcRenderer.send('addGuestClose');
+  		ipcRenderer.send('WindowClose');
   	}		
   }
 });

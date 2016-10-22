@@ -123,6 +123,10 @@ var v = new Vue({
   		console.log(personID);
   		main.openEditGuestWindow(personID);
   	},
+    editInvitation: function(invitationID){
+      console.log(invitationID);
+      main.openEditInvitationWindow(invitationID);
+    },
     isGuestActive: function(personID){
       return this.currentSelectedGuestID==personID;
     }

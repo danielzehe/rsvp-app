@@ -69,11 +69,10 @@ exports.openEditGuestWindow = function(personID) {
     editGuestWindow = null
   });
   editGuestWindow.webContents.once('did-finish-load',()=>{
-      request.get(api_endpoint+'/guest/personID/b58/'+personID,function(err,res,body){
-        if(!err && res.statusCode == 200){
-          editGuestWindow.webContents.send('GuestData',JSON.parse(body));  
-        }
-    });
+    getGuestInfo(personID,(guest)=>{
+      editGuestWindow.webContents.send('GuestData',guest); 
+    })
+       
    })
 }
 exports.addGuest = (guest) =>{
@@ -96,7 +95,23 @@ exports.openAddInvitationWindow = () =>{
   })
 }
 
-ipcMain.on('addGuestClose',(event,args) => {
+exports.openEditInvitationWindow = function(inviteID){
+  let editInvitationWindow = new BrowserWindow({width:300,height:700,titleBarStyle:'hidden'});
+  editInvitationWindow.loadURL(`file://${__dirname}/HTML/editInvitationWindow.html`)
+  editInvitationWindow.on('closed',()=>{
+    editInvitationWindow = null
+  });
+
+  editInvitationWindow.webContents.once('did-finish-load',()=>{
+      request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
+        if(!err && res.statusCode == 200){
+          editInvitationWindow.webContents.send('InvitationData',JSON.parse(body));  
+        }
+    });
+   })
+}
+
+ipcMain.on('WindowClose',(event,args) => {
     // console.log(event.sender);
     event.sender.executeJavaScript('window.close()');
 })
@@ -106,7 +121,7 @@ ipcMain.on('addGuest', (event, guest) => {
   // console.log(guest);
   // console.log(event);
   request.put({url:api_endpoint+ '/guest',body:guest,json:true},function(err,httpresponse,body){
-    console.log([err,httpresponse]);
+    // console.log([err,httpresponse]);
     if(!err && httpresponse.statusCode == 200){
       // console.log('added');
        // close the add window
@@ -123,7 +138,7 @@ ipcMain.on('addGuest', (event, guest) => {
 ipcMain.on('editedGuest',(event,guest) =>{
   console.log('sending guest update');
   request.post({url:api_endpoint+'/guest/personID/b58/'+guest.personID,body:guest,json:true},function(err,httpresponse,body){
-    console.log([err,httpresponse]);
+    // console.log([err,httpresponse]);
     if(!err && httpresponse.statusCode == 200){
       console.log('update great');
       event.sender.executeJavaScript('window.close()');
@@ -133,11 +148,32 @@ ipcMain.on('editedGuest',(event,guest) =>{
 })
 
 
+ipcMain.on('editedInvitation',(event,invitation) =>{
+  console.log('sending Invitation update');
+  request.post({url:api_endpoint+'/invitation/inviteID/b58/'+invitation.inviteID,body:invitation,json:true},function(err,httpresponse,body){
+    // console.log([err,httpresponse]);
+    if(!err && httpresponse.statusCode == 200){
+      console.log('update great');
+      event.sender.executeJavaScript('window.close()');
+      getInvitationList();
+    }
+  })
+});
+
+
+ipcMain.on('getGuestInfo',(event,guestID)=>{
+  console.log("getting guest "+guestID);
+  getGuestInfo(guestID,(guest)=>{
+    // console.log(guest);
+    event.sender.webContents.send('GuestData',guest);
+  })
+})
+
 
 ipcMain.on('addInvitation',(event,invitation) =>{
   console.log("add invitation");
   request.put({url:api_endpoint+ '/invitation',body:invitation,json:true},function(err,httpresponse,body){
-    console.log([err,httpresponse]);
+    // console.log([err,httpresponse]);
     if(!err && httpresponse.statusCode == 200){
       // console.log('added');
        // close the add window
@@ -168,4 +204,12 @@ const getInvitationList = () =>{
         win.webContents.send('invitations', JSON.parse(body));
       }
   }); 
+}
+
+const getGuestInfo = (guestID, callback) =>{
+  request.get(api_endpoint+'/guest/personID/b58/'+guestID,function(err,res,body){
+        if(!err && res.statusCode == 200){
+          callback(JSON.parse(body));
+        }
+    });
 }
