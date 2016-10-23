@@ -27,6 +27,29 @@
         <label>Dietary Restrictions</label>
         <input type="text" class="form-control" placeholder="no Pork" v-model="guest.dietaryRestrictions">
       </div>
+      <div class="form-group">
+        <label>Eating</label>
+        <div style="display: flex;">          
+          <div class="radio" class="checkbox" style="flex-grow: 1">
+            <label>
+              <input type="radio" name="eating" value="1" v-model="guest.eatinggroup">
+              Baby
+            </label>
+          </div>
+          <div class="radio" class="checkbox" style="flex-grow: 1">
+            <label>
+              <input type="radio" name="eating" value="2" v-model="guest.eatinggroup">
+              Kids
+            </label>
+          </div>
+          <div class="radio" class="checkbox" style="flex-grow: 1">
+            <label>
+              <input type="radio" name="eating" value="3" v-model="guest.eatinggroup">
+              Adults
+            </label>
+          </div>
+        </div>
+      </div>
 
       <div class="form-group">
         <label>Invited To:</label>
@@ -53,13 +76,13 @@
         <div style="display: flex;">          
           <div class="radio" class="checkbox" style="flex-grow: 1">
             <label>
-              <input type="radio" name="radios" value="2" v-model="guest.familyside">
+              <input type="radio" name="famside" value="2" v-model="guest.familyside">
               🎩
             </label>
           </div>
           <div class="radio" class="checkbox" style="flex-grow: 1">
             <label>
-              <input type="radio" name="radios" value="1" v-model="guest.familyside">
+              <input type="radio" name="famside" value="1" v-model="guest.familyside">
               👰🏻
             </label>
           </div>

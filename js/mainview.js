@@ -97,6 +97,24 @@ var v = new Vue({
           return invitation.inviteID == currentinvitationID;
         });
       }
+    },
+    numberofnonEaters:function(){
+      let noneater=0;
+      let kidseater=0;
+      let fulleater = 0;
+      for (guest of this.guests){
+        if(guest.eatinggroup==1){
+          noneater++;
+        }
+        else if(guest.eatinggroup==2){
+          kidseater++;
+        }
+        else{
+          fulleater++;
+        }
+      }
+
+      return fulleater; 
     }
   },
   methods:{

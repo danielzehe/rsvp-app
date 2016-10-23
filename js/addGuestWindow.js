@@ -11,6 +11,7 @@ var v = new Vue({
   		dietaryRestrictions:'',
   		familyside:0,
   		invitedto:[],
+      eatinggroup:3,
   		contact:  {
   			phone:'',
   			email:'',
