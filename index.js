@@ -5,7 +5,7 @@ const request = require('request')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-let api_endpoint = 'http://192.168.1.17:3000/API'
+let api_endpoint = 'http://localhost:3000/API'
 
 function createWindow () {
   // Create the browser window.

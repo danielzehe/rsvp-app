@@ -113,8 +113,11 @@ var v = new Vue({
           fulleater++;
         }
       }
-
-      return fulleater; 
+      let object ={};
+      object.fulleater = fulleater;
+      object.noneater = noneater;
+      object.kidseater = kidseater;
+      return object; 
     }
   },
   methods:{
@@ -212,7 +215,7 @@ Vue.component('guest-detail-view',{
 			return emojies;
 		},
 		getQRdata: function(){
-			return qr("http://192.168.1.17:3000/api/guest/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
+			return qr("http://192.168.1.153:3000/web/invitation/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
 		}
 	}
 })

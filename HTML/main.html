@@ -52,13 +52,11 @@
   <h1 class="title">RSVP App</h1>
     <div class="toolbar-actions">
       <div class="btn-group">
-        <button><span class="icon icon-users"></span>{{invitations.length}} Invitations</button>
-        <button><span class="icon icon-user"></span>{{numberofnonEaters}} Guests</button>
-
-        <button v-on:click="addGuest"><span class="icon icon-plus" ></span> Guest</button>
+       <button v-on:click="addGuest"><span class="icon icon-plus" ></span> Guest</button>
         <button v-on:click="addInvitation"><span class="icon icon-plus" ></span> Invitation</button>
-
       </div>
+        {{invitations.length}} Invitations & 
+        ({{numberofnonEaters.fulleater}}/{{numberofnonEaters.kidseater}}/{{numberofnonEaters.noneater}}) Guests
       <input class="pull-right" type="text" placeholder="Search" v-model="searchText">      
     </div>
   </header>
