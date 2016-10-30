@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RSVP App</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../lib/photon-0.1-2.2-dist/css/photon.min.css">
+
+  </head>
+  <body>
+    <div class="window" style="-webkit-app-region: drag">
+      <div class="window-content" id="app">    
+        <div class="padded-more">
+          <h3>{{invitation.invitationName}}</h3>
+          <table class="table-striped">
+            <thead>
+              <th>Name</th>
+              <th>Family Name</th>
+              <th>🇸🇬 🎉</th>
+              <th>🇸🇬 💒</th>
+              <th>🇩🇪 🎉</th>
+            </thead>
+            <tbody>
+             <tr v-for="guest in invitation.guests">
+             <td>{{guest.name}}</td>
+             <td>{{guest.surname}}</td>
+             <td><input type="checkbox" v-model="guest.attending" value="SG" v-if="guest.invitedto.indexOf('SG')!=-1"></td> 
+             <td><input type="checkbox" v-model="guest.attending" value="SGS" v-if="guest.invitedto.indexOf('SGS')!=-1"></td> 
+             <td><input type="checkbox" v-model="guest.attending" value="DE" v-if="guest.invitedto.indexOf('DE')!=-1"></td> 
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-form btn-primary" v-on:click="saveChanges">RSVP Now</button>
+          </div>
+      </div>
+    </div>
+    <script src="../js/rsvpInvitationWindow.js" charset="utf-8"></script>
+  </body>
+</html>

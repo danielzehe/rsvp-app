@@ -44,7 +44,7 @@ var v = new Vue({
   				})
   			})
   		}
-  		return data;
+  		return data.sort(function(a,b) {return (a.surname > b.surname) ? 1 : ((b.surname > a.surname) ? -1 : 0);} ); ;
   	},
     filteredInvitationData: function(){
       var filterKey = this.searchText && this.searchText.toLowerCase()
@@ -148,6 +148,10 @@ var v = new Vue({
       console.log(invitationID);
       main.openEditInvitationWindow(invitationID);
     },
+    rsvpInvitation : function(invitationID){
+      console.log(invitationID);
+      main.openRSVPInvitationWindow(invitationID);
+    },
     isGuestActive: function(personID){
       return this.currentSelectedGuestID==personID;
     }
@@ -170,9 +174,7 @@ Vue.component('guest-list-item', {
     },
     start: function(event){
       event.dataTransfer.setData("application/json",JSON.stringify(this.guest));
-    }
-
-    
+    }    
   }
 })
 
@@ -205,17 +207,20 @@ Vue.component('guest-detail-view',{
 			let emojies = this.guest.invitedto.map((element)=>{
 				switch(element){
 					case 'SGS':
-						return "🇸🇬💒";
+            let attendingSGS = this.guest.attending===undefined ? false : this.guest.attending.indexOf('SGS')!=-1;
+						return {em:"🇸🇬💒", attend:attendingSGS==true ? "✅" : "❌"};
 					case 'SG':
-						return "🇸🇬🎉";
+             let attendingSG = this.guest.attending===undefined ? false :this.guest.attending.indexOf('SG')!=-1;
+						return {em:"🇸🇬🎉", attend:attendingSG==true ? "✅" : "❌"};
 					case 'DE':
-						return "🇩🇪🎉"
+            let attendingDE = this.guest.attending===undefined ? false :this.guest.attending.indexOf('DE')!=-1;
+						return {em:"🇩🇪🎉",attend:attendingDE==true ? "✅" : "❌"};
 				}
 			});
 			return emojies;
 		},
 		getQRdata: function(){
-			return qr("http://192.168.1.153:3000/web/invitation/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
+			return qr("http://rsvp.danielwithsilver.com/web/invitation/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
 		}
 	}
 })

@@ -1,11 +1,14 @@
 {
   "name": "rsvp-app",
+  "productName":"Wedding App",
   "version": "0.0.1",
   "description": "Front-end Electron Application for managing RSVP-Engine events.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "packosx": "~/.node/bin/electron-packager .  --name=\"Wedding App\" --icon=icon.icns --platform=darwin --arch=x64 --osx-sign.identity=\"3rd Party Mac Developer Application: TUM CREATE LIMITED (U4YW2FXWKU)\" --overwrite"
+
   },
   "repository": {
     "type": "git",

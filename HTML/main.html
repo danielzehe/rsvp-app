@@ -13,7 +13,10 @@
   <div style="flex:1 ">
     <div style="display: flex;">
       <h1 style="flex:1">{{guest.name}} {{guest.surname}}</h1>
-      <img style="flex: none" :src="getQRdata()" width="150" height="150" />
+      <div style="flex: none">
+<!--         <img  :src="getQRdata()" width="150" height="150" />
+        <h3>{{guest.personID}}</h3> -->
+      </div>
     </div>
     <div style="display: flex;">
       <div style="flex-grow: 0;min-width: 30%">
@@ -31,7 +34,7 @@
       </div>
       <div style="flex-grow: 0;min-width: 30%">
         <h3>Status</h3>
-        <span v-for="invitedto in getFlags()">{{invitedto}}</span>
+        <div v-for="invitedto in getFlags()">{{invitedto.em}} {{invitedto.attend}}</div><br/>
       </div>
     </div>
   </div>
@@ -84,20 +87,22 @@
         </guest-detail-view >
 
         <invitation-detail-view v-bind:invitation="currentInvitation" v-bind:usedguests="guestsinInvitation" v-if="currentSelectedInvitationID!=''"></invitation-detail-view>
-
-        <footer class="toolbar toolbar-footer" style="flex: none" >
-          <div class="toolbar-actions">
-            <button class="btn btn-default" v-on:click="editGuest(currentGuest.personID)" v-if="currentSelectedGuestID!=''">
-              Edit
-            </button>
-              <button class="btn btn-default" v-on:click="editInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''">
-              Edit
-            </button>
-          </div>
-        </footer>
      </div>
     </div>
   </div>
+  <footer class="toolbar toolbar-footer" style="flex: none" >
+  <div class="toolbar-actions">
+    <button class="btn btn-mini btn-default" v-on:click="editGuest(currentGuest.personID)" v-if="currentSelectedGuestID!=''">
+      Edit
+    </button>
+      <button class="btn btn-mini btn-default" v-on:click="editInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''">
+      Edit
+    </button>
+    <button class="btn btn-mini btn-default"  v-on:click="rsvpInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''">
+      RSVP
+    </button>
+  </div>
+</footer>
 </div>
 
 

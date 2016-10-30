@@ -5,7 +5,9 @@ const request = require('request')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-let api_endpoint = 'http://localhost:3000/API'
+let api_endpoint = 'http://daniel:zehe@rsvp.danielwithsilver.com/API'
+// let api_endpoint = 'http://daniel:zehe@localhost:3000/API'
+
 
 function createWindow () {
   // Create the browser window.
@@ -15,7 +17,7 @@ function createWindow () {
   win.loadURL(`file://${__dirname}/HTML/main.html`)
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -110,6 +112,36 @@ exports.openEditInvitationWindow = function(inviteID){
     });
    })
 }
+
+exports.openRSVPInvitationWindow = (inviteID)=>{
+  let rsvpInvitationWindow = new BrowserWindow({height:300,width:400, titleBarStyle:'hidden','accept-first-mouse':true});
+  rsvpInvitationWindow.loadURL(`file://${__dirname}/HTML/rsvpInvitationWindow.html`)
+  rsvpInvitationWindow.on('closed',()=>{
+    rsvpInvitationWindow=null;
+  })
+
+  rsvpInvitationWindow.webContents.once('did-finish-load',()=>{
+    request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
+      if(!err && res.statusCode==200){
+        rsvpInvitationWindow.webContents.send('InvitationData',JSON.parse(body));
+      }
+    });
+  })
+}
+
+ipcMain.on('setAttendance', (event,attendanceObject) =>{
+  console.log(attendanceObject)
+// /invitation/inviteID/b58/:id/attendance'
+  request.post({url:api_endpoint+'/invitation/inviteID/b58/'+attendanceObject.inviteID+'/attendance', body:attendanceObject,json:true},function(err,httpresponse,body){
+    if(!err && httpresponse.statusCode == 200){
+      console.log('update great');
+      event.sender.executeJavaScript('window.close()');
+      getGuestList()
+    }
+  })
+
+})
+
 
 ipcMain.on('WindowClose',(event,args) => {
     // console.log(event.sender);
