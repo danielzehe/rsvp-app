@@ -1,5 +1,6 @@
 const {app, BrowserWindow,ipcMain} = require('electron')
 const request = require('request')
+const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -50,6 +51,25 @@ app.on('activate', () => {
   }
 })
 
+exports.showInvitation = (inviteID) =>{
+  let invitationWindow = new BrowserWindow({width:1000,height:1000,frame:false});
+  invitationWindow.loadURL(`file://${__dirname}/HTML/showInvitationWindow.html`)
+  invitationWindow.on('closed',()=>{
+    invitationWindow = null;
+  })
+
+  invitationWindow.webContents.once('did-finish-load',()=>{
+    request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
+      if(!err && res.statusCode == 200){
+        invitationWindow.webContents.send('InvitationData',JSON.parse(body)); 
+        invitationWindow.show();
+      }
+    });
+  })
+
+
+  
+}
 exports.getInvitations = () =>{
   getInvitationList()
 }

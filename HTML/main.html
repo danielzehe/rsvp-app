@@ -14,8 +14,8 @@
     <div style="display: flex;">
       <h1 style="flex:1">{{guest.name}} {{guest.surname}}</h1>
       <div style="flex: none">
-<!--         <img  :src="getQRdata()" width="150" height="150" />
-        <h3>{{guest.personID}}</h3> -->
+        <img  :src="getQRdata()" width="150" height="150" />
+        <h3>{{guest.personID}}</h3>
       </div>
     </div>
     <div style="display: flex;">
@@ -100,6 +100,9 @@
     </button>
     <button class="btn btn-mini btn-default"  v-on:click="rsvpInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''">
       RSVP
+    </button>
+    <button class="btn btn-mini btn-default" v-on:click="showInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''"> 
+      show invite
     </button>
   </div>
 </footer>

@@ -154,6 +154,9 @@ var v = new Vue({
     },
     isGuestActive: function(personID){
       return this.currentSelectedGuestID==personID;
+    },
+    showInvitation:function(invitationID){
+      main.showInvitation(invitationID);
     }
    }
 });
