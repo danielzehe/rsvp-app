@@ -295,7 +295,7 @@ ipcMain.on('saveCard',(event,args) =>{
       console.log('Write PDF successfully.')
       console.log(exportProgressSet.delete(filename));
       scheduleNext();
-
+      event.sender.executeJavaScript('window.close()');
     })
   })
 

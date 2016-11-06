@@ -62,7 +62,7 @@ function renderInvitation_SG_EN(invitation,type){
 	  document.body.innerHTML = data;
 
 
-	  document.getElementById("XMLID_168_").innerHTML = invitation.invitationName;
+	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 
 
 	  // document.getElementById("secondbody").getElementById("XMLID_168_").innerHTML = "HTETLSLFDF";
@@ -72,23 +72,23 @@ function renderInvitation_SG_EN(invitation,type){
 }
 
 function renderInvitation_SG_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_SG.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_SG'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
 
-	  document.getElementById("XMLID_254_").innerHTML = invitation.invitationName;
+	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
 	});
 }
 
 function renderInvitation_DE_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_DE.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_DE'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  console.log(invitation);
-	  document.getElementById("XMLID_313_").innerHTML = invitation.invitationName;
+	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
 	});
@@ -100,7 +100,7 @@ function renderInvitation_DE_EN(invitation,type){
 	  document.body.innerHTML = data;
 
 
-	  document.getElementById("XMLID_298_").innerHTML = invitation.invitationName;
+	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
 	});
@@ -109,14 +109,14 @@ function renderInvitation_DE_EN(invitation,type){
 
 
 function renderInformation_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Information_German.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Information_German'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
 
-	  document.getElementById("XMLID_342_").setAttribute("xlink:href",qrcode);
-	  document.getElementById("XMLID_337_").innerHTML = invitation.inviteID;
+	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
+	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
 	  save(invitation,type);
 	});
 }
@@ -126,9 +126,9 @@ function renderInformation_EN(invitation,type){
 	  document.body.innerHTML = data;
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
-	  document.getElementById("XMLID_789_").setAttribute("xlink:href",qrcode);
-	  document.getElementById("XMLID_278_").innerHTML = invitation.inviteID;
-	  document.getElementById("XMLID_238_").innerHTML = 'Dear '+invitation.invitationName+',';
+	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
+	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
+	  document.getElementById("invite_name").innerHTML = 'Dear '+invitation.invitationName+',';
 	  save(invitation,type);
 
 	});
@@ -136,7 +136,7 @@ function renderInformation_EN(invitation,type){
 
 
 function renderSolemnization_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Solemnization_German.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Solemnization_German'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  save(invitation,type);
@@ -150,4 +150,13 @@ function renderSolemnization_EN(invitation,type){
 	  save(invitation,type);
 
 	});
+}
+
+function singleorcouple(invitation){
+	if(invitation.guests.length ==1){
+		return '_Single';
+	}
+	else {
+		return '_Couple';
+	}
 }

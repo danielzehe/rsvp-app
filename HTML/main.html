@@ -73,7 +73,7 @@
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
-          <STRONG>Guests</STRONG>
+          <STRONG>{{filteredGuestData.length}} Guests </STRONG>
         </li>
         <guest-list-item v-for="guest in filteredGuestData " v-bind:isactive="isGuestActive(guest.personID)" v-bind:guest="guest" v-on:clicking="selectedGuest"></guest-list-item>
       </ul>
@@ -81,7 +81,7 @@
       <div class="pane-sm sidebar" style="overflow-y: scroll;">
         <ul class="list-group">
         <li class="list-group-header">
-          <STRONG>Invitations</STRONG>
+          <STRONG>{{filteredInvitationData.length}} Invitations</STRONG>
         </li>
         <invitation-list-item v-for="invitation in filteredInvitationData " v-bind:invitation="invitation" v-on:clicking="selectedInvitation"></invitation-list-item>
       </ul>
