@@ -155,8 +155,14 @@ var v = new Vue({
     isGuestActive: function(personID){
       return this.currentSelectedGuestID==personID;
     },
-    showInvitation:function(invitationID){
-      main.showInvitation(invitationID);
+    showSVGInvitation:function(invitationID){
+      main.showSVGInvitation(invitationID);
+    },
+    genInvitationPackage:function(invitationID){
+      main.saveInvitationPackage(invitationID);
+    },
+    exportAllInvitations:function(){
+      main.saveAllInvitationPackages();
     }
    }
 });

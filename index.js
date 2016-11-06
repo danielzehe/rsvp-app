@@ -1,10 +1,13 @@
-const {app, BrowserWindow,ipcMain} = require('electron')
+const {app, BrowserWindow,ipcMain,dialog} = require('electron')
 const request = require('request')
 const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+
+let guests = [];
+let invitations = [];
 
 let api_endpoint = 'http://daniel:zehe@rsvp.danielwithsilver.com/API'
 // let api_endpoint = 'http://daniel:zehe@localhost:3000/API'
@@ -51,24 +54,141 @@ app.on('activate', () => {
   }
 })
 
-exports.showInvitation = (inviteID) =>{
-  let invitationWindow = new BrowserWindow({width:1000,height:1000,frame:false});
-  invitationWindow.loadURL(`file://${__dirname}/HTML/showInvitationWindow.html`)
-  invitationWindow.on('closed',()=>{
-    invitationWindow = null;
-  })
+exports.saveAllInvitationPackages = () =>{
+  let counter = 0
+    const folderpath = dialog.showOpenDialog({buttonLabel:'Use folder',properties:['openDirectory'],title:'select a folder to output the invitations'});
+  for(let invite of invitations){
+    this.saveInvitationPackageWithFolderName(invite.inviteID,folderpath);
+    console.log(counter++ + "of " + invitations.length);
+  }
 
-  invitationWindow.webContents.once('did-finish-load',()=>{
-    request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
-      if(!err && res.statusCode == 200){
-        invitationWindow.webContents.send('InvitationData',JSON.parse(body)); 
-        invitationWindow.show();
-      }
-    });
-  })
+
+
+
+}
+
+exports.saveInvitationPackage = (inviteID) =>{
+    const folderpath = dialog.showOpenDialog({buttonLabel:'Use folder',properties:['openDirectory'],title:'select a folder to output the invitations'});
+    this.saveInvitationPackageWithFolderName(inviteID,folderpath);
+}
+
+exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
+  console.log("Generate Package for "+ inviteID);
+  let Invitation = this.getInvitation(inviteID);
+  // assigning the GuestObjects for this invitation
+  let invitationGuests = [];
+  for(let guestID of Invitation.guests){
+    invitationGuests.push(this.getGuest(guestID));
+  }
+
+  //creating a set of Events to attend to
+  let invitationSet = new Set();
+  for(let guest of invitationGuests){
+    for(let attend of guest.invitedto){
+      invitationSet.add(attend);
+    }
+  }
+
+
+  //getting the ouput folder
 
 
   
+  if(invitationSet.has("DE")){
+    if(Invitation.lang.indexOf('de')!=-1){
+      cardRenderer(Invitation,folderpath[0],'DE_de');
+      // renderInvitation_DE_DE();
+    }
+    else{
+      cardRenderer(Invitation,folderpath[0],'DE_en');
+      // renderInvitation_DE_EN(); 
+    }
+    
+  }
+  if(invitationSet.has("SG")){
+
+    if(Invitation.lang.indexOf('de')!=-1){
+      cardRenderer(Invitation,folderpath[0],'SG_de');
+      // renderInvitation_SG_DE();
+    }
+    else{
+      cardRenderer(Invitation,folderpath[0],'SG_en');
+      // renderInvitation_SG_EN();
+    }
+  }
+  if(invitationSet.has("SGS")){
+    if(Invitation.lang.indexOf('de')!=-1){
+      cardRenderer(Invitation,folderpath[0],'SGS_de');
+      // renderSolemnization_DE();
+    }
+    else{
+      cardRenderer(Invitation,folderpath[0],'SGS_en');
+      // renderSolemnization_EN();
+    }
+  }
+
+
+  if(Invitation.lang.indexOf('de')!=-1){
+      cardRenderer(Invitation,folderpath[0],'Info_de');
+    
+  }
+  else {
+      cardRenderer(Invitation,folderpath[0],'Info_en');
+    
+  }
+
+}
+
+const cardRenderer = (invitation,folderpath,type) =>{
+  console.log("open renderer "+ type);
+  let cardRendererWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: true});
+  cardRendererWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
+  cardRendererWindow.on('closed',()=>{
+    cardRendererWindow = null;
+  })
+
+  cardRendererWindow.webContents.once('did-finish-load',()=>{
+    console.log("sending info");
+    cardRendererWindow.webContents.send('InvitationData',{"invitation":invitation,"folderpath":folderpath,"type":type}); 
+        
+  });
+}
+
+
+
+exports.getInvitation =(inviteID) =>{
+  let returnInvitation = invitations.find((invite) =>{
+    return invite.inviteID == inviteID;
+  });
+  return returnInvitation;
+}
+
+
+exports.getGuest = (personID) =>{
+
+  let returnguest =guests.find((guest)=>{
+    return guest.personID == personID
+  });
+  // console.log(returnguest);
+  return returnguest;
+}
+
+exports.showSVGInvitation = (inviteID) =>{
+  let invitationWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: true});
+  invitationWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
+  invitationWindow.on('closed',()=>{
+    invitationWindow = null;
+    console.log('invitation File Written');
+  })
+
+  invitationWindow.webContents.once('did-finish-load',()=>{
+     request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
+        if(!err && res.statusCode == 200){
+          invitationWindow.webContents.send('InvitationData',JSON.parse(body)); 
+          
+        }
+      });
+    })
 }
 exports.getInvitations = () =>{
   getInvitationList()
@@ -148,6 +268,40 @@ exports.openRSVPInvitationWindow = (inviteID)=>{
     });
   })
 }
+
+ipcMain.on('saveCard',(event,args) =>{
+    console.log("Saving to "+args.folderpath);
+
+    let folderpath = args.folderpath;
+    let filename = args.filename;
+    event.sender.webContents.printToPDF({pageSize:{width:160000,height:160000},marginsType:1}, (error, data) => {
+    if (error) throw error
+   
+
+    if (!fs.existsSync(folderpath)){
+      fs.mkdirSync(folderpath);
+    }
+
+    fs.writeFile(folderpath+'/'+filename+'.pdf', data, (error) => {
+      if (error) throw error
+      console.log('Write PDF successfully.')
+    })
+  })
+
+});
+
+ipcMain.on('printCard',(event,args) =>{
+  console.log("printing "+args.filename);
+  event.sender.webContents.printToPDF({pageSize:{width:160000,height:160000},marginsType:1}, (error, data) => {
+    if (error) throw error
+
+    var folderpath = dialog.showOpenDialog({buttonLabel:'Use folder',properties:['openDirectory'],title:'select a folder to output the invitations'});
+    fs.writeFile(folderpath+'/'+args.filename+'.pdf', data, (error) => {
+      if (error) throw error
+      console.log('Write PDF successfully.')
+    })
+  })
+});
 
 ipcMain.on('setAttendance', (event,attendanceObject) =>{
   console.log(attendanceObject)
@@ -246,6 +400,7 @@ const getGuestList = () => {
    request(api_endpoint+'/guests',function(err,res,body){
       if (!err && res.statusCode == 200) {
         win.webContents.send('guests', JSON.parse(body));
+        guests = JSON.parse(body);
       }
   });
 }
@@ -254,6 +409,7 @@ const getInvitationList = () =>{
    request(api_endpoint+'/invitations',function(err,res,body){
       if (!err && res.statusCode == 200) {
         win.webContents.send('invitations', JSON.parse(body));
+        invitations = JSON.parse(body);
       }
   }); 
 }
