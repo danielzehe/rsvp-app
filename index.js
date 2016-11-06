@@ -1,7 +1,8 @@
 const {app, BrowserWindow,ipcMain,dialog} = require('electron')
 const request = require('request')
 const fs = require('fs')
-
+var fixPath = require('fix-path');
+fixPath();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -165,6 +166,7 @@ const cardRenderer = (invitation,folderpath,type) =>{
   exportProgressSet.add(invitation.inviteID+'_'+type);
   // console.log(exportProgressSet.size)
   let cardRendererWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: false});
+  // cardRendererWindow.webContents.openDevTools();
   cardRendererWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
   cardRendererWindow.on('closed',()=>{
     cardRendererWindow = null;

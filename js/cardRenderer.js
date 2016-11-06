@@ -57,7 +57,7 @@ function save(invitation,type){
 }
 
 function renderInvitation_SG_EN(invitation,type){
-	fs.readFile('resources/Invitation_English_Reception_SG.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_SG.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
@@ -72,7 +72,7 @@ function renderInvitation_SG_EN(invitation,type){
 }
 
 function renderInvitation_SG_DE(invitation,type){
-	fs.readFile('resources/Invitation_German_Reception_SG.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_SG.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
@@ -84,7 +84,7 @@ function renderInvitation_SG_DE(invitation,type){
 }
 
 function renderInvitation_DE_DE(invitation,type){
-	fs.readFile('resources/Invitation_German_Reception_DE.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_DE.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  console.log(invitation);
@@ -95,7 +95,7 @@ function renderInvitation_DE_DE(invitation,type){
 }
 
 function renderInvitation_DE_EN(invitation,type){
-	fs.readFile('resources/Invitation_English_Reception_DE.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_DE.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
@@ -109,7 +109,7 @@ function renderInvitation_DE_EN(invitation,type){
 
 
 function renderInformation_DE(invitation,type){
-	fs.readFile('resources/Information_German.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Information_German.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
@@ -121,7 +121,7 @@ function renderInformation_DE(invitation,type){
 	});
 }
 function renderInformation_EN(invitation,type){
-	fs.readFile('resources/RSVP_English.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/RSVP_English.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
@@ -136,7 +136,7 @@ function renderInformation_EN(invitation,type){
 
 
 function renderSolemnization_DE(invitation,type){
-	fs.readFile('resources/Solemnization_German.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Solemnization_German.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  save(invitation,type);
@@ -144,7 +144,7 @@ function renderSolemnization_DE(invitation,type){
 }
 
 function renderSolemnization_EN(invitation,type){
-	fs.readFile('resources/Solemnization_English.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Solemnization_English.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  save(invitation,type);
