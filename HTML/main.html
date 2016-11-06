@@ -61,7 +61,8 @@
         {{invitations.length}} Invitations & 
         ({{numberofnonEaters.fulleater}}/{{numberofnonEaters.kidseater}}/{{numberofnonEaters.noneater}}) Guests
       <div class="btn-group">
-      <button v-on:click="exportAllInvitations">Export all Invitation</button>
+      <button v-on:click="exportAllInvitations">Export all Invitation<br>
+      <progress v-model="progress" max="1" class="pull-right" v-if="progress!=0 && progress!=1.0"></progress></button>
       </div>
       <input class="pull-right" type="text" placeholder="Search" v-model="searchText">      
     </div>
@@ -104,13 +105,11 @@
     <button class="btn btn-mini btn-default"  v-on:click="rsvpInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''">
       RSVP
     </button>
-    <button class="btn btn-mini btn-default" v-on:click="showSVGInvitation(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''"> 
-      render SVG page
-    </button>
     <button class="btn btn-mini btn-default" v-on:click="genInvitationPackage(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''"> 
       Generate Package
     </button>
   </div>
+
 </footer>
 </div>
 

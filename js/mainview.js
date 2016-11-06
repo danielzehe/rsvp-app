@@ -21,6 +21,10 @@ ipcRenderer.on('invitations',(evt,body)=>{
   v.invitations = body;
 })
 
+ipcRenderer.on('progressUpdate',(evt, body)=>{
+  console.log(body);
+  v.progress = body;
+});
 
 // console.log(guests);
 var v = new Vue({
@@ -31,7 +35,8 @@ var v = new Vue({
   	searchText:'',
     searchInvitations:'',
   	currentSelectedGuestID:'',
-    currentSelectedInvitationID:''
+    currentSelectedInvitationID:'',
+    progress : 0.0
   },
   computed:{
   	filteredGuestData:function(){
@@ -154,9 +159,6 @@ var v = new Vue({
     },
     isGuestActive: function(personID){
       return this.currentSelectedGuestID==personID;
-    },
-    showSVGInvitation:function(invitationID){
-      main.showSVGInvitation(invitationID);
     },
     genInvitationPackage:function(invitationID){
       main.saveInvitationPackage(invitationID);

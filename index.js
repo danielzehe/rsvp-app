@@ -54,17 +54,38 @@ app.on('activate', () => {
   }
 })
 
+let exportProgressSet = new Set();
+let exportQueue = [];
 exports.saveAllInvitationPackages = () =>{
   let counter = 0
     const folderpath = dialog.showOpenDialog({buttonLabel:'Use folder',properties:['openDirectory'],title:'select a folder to output the invitations'});
   for(let invite of invitations){
-    this.saveInvitationPackageWithFolderName(invite.inviteID,folderpath);
+    // this.saveInvitationPackageWithFolderName(invite.inviteID,folderpath);
+
+    exportQueue.push({id:invite.inviteID,fp:folderpath});
+
     console.log(counter++ + "of " + invitations.length);
   }
+  scheduleNext();
+}
 
 
+const scheduleNext = () =>{
+  console.log('progress set is '+exportProgressSet.size);
+  win.webContents.send('progressUpdate',((invitations.length-exportQueue.length))/invitations.length);
+  while(exportProgressSet.size<10){
+    if(exportQueue.length!=0){
+      let nextobject = exportQueue.pop();
+      console.log("doing "+ JSON.stringify(nextobject));
 
-
+      this.saveInvitationPackageWithFolderName(nextobject.id,nextobject.fp);
+    }
+    else{
+      console.log("no more obects in queue");
+      break;
+    }
+  }
+  console.log("broke from while");
 }
 
 exports.saveInvitationPackage = (inviteID) =>{
@@ -141,7 +162,9 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
 
 const cardRenderer = (invitation,folderpath,type) =>{
   console.log("open renderer "+ type);
-  let cardRendererWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: true});
+  exportProgressSet.add(invitation.inviteID+'_'+type);
+  // console.log(exportProgressSet.size)
+  let cardRendererWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: false});
   cardRendererWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
   cardRendererWindow.on('closed',()=>{
     cardRendererWindow = null;
@@ -173,23 +196,6 @@ exports.getGuest = (personID) =>{
   return returnguest;
 }
 
-exports.showSVGInvitation = (inviteID) =>{
-  let invitationWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: true});
-  invitationWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
-  invitationWindow.on('closed',()=>{
-    invitationWindow = null;
-    console.log('invitation File Written');
-  })
-
-  invitationWindow.webContents.once('did-finish-load',()=>{
-     request.get(api_endpoint+'/invitation/inviteID/b58/'+inviteID,function(err,res,body){
-        if(!err && res.statusCode == 200){
-          invitationWindow.webContents.send('InvitationData',JSON.parse(body)); 
-          
-        }
-      });
-    })
-}
 exports.getInvitations = () =>{
   getInvitationList()
 }
@@ -285,6 +291,9 @@ ipcMain.on('saveCard',(event,args) =>{
     fs.writeFile(folderpath+'/'+filename+'.pdf', data, (error) => {
       if (error) throw error
       console.log('Write PDF successfully.')
+      console.log(exportProgressSet.delete(filename));
+      scheduleNext();
+
     })
   })
 
