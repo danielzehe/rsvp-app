@@ -13,13 +13,10 @@
   <div style="flex:1 ">
     <div style="display: flex;">
       <h1 style="flex:1">{{guest.name}} {{guest.surname}}</h1>
-      <div style="flex: none">
-        <img  :src="getQRdata()" width="150" height="150" />
-        <h3>{{guest.personID}}</h3>
-      </div>
+
     </div>
     <div style="display: flex;">
-      <div style="flex-grow: 0;min-width: 30%">
+      <div style="flex-grow: 0;min-width: 25%">
         <h3>Address</h3>
         {{guest.contact.address.street_1}}<br/>
         {{guest.contact.address.street_2}}<br/>
@@ -27,12 +24,19 @@
         <span>{{guest.contact.address.city}} {{guest.contact.address.postalcode}}</span><br/>
         {{guest.contact.address.country}}
       </div>
-      <div style="flex-grow: 1;min-width: 30%">
+      <div style="flex-grow: 1;min-width: 25%">
         <h3>Contact</h3>
         Phone: {{guest.contact.phone}}<br/>
         Email: {{guest.contact.email}}
       </div>
-      <div style="flex-grow: 0;min-width: 30%">
+      <div style="flex-grow:0;min-width: 25%">
+        <h3 v-on:click="toggleQR">ID: {{guest.personID}}</h3>
+        <img  :src="getQRdata()" width="75%" v-if="showqr" v-on:click="toggleQR"/>
+        
+      </div>
+
+
+      <div style="flex-grow: 0;min-width: 10%">
         <h3>Status</h3>
         <div v-for="invitedto in getFlags()">{{invitedto.em}} {{invitedto.attend}}</div><br/>
       </div>
@@ -44,7 +48,9 @@
     <div style="flex:1 ">
       <div style="display: flex;">
         <h1 style="flex:1">{{invitation.invitationName}}</h1>
-        
+      </div>
+      <div style="white-space: pre-line;">
+        {{invitation.comment}}
       </div>
       <guest-detail-view style="border-bottom: 1px solid black" v-for="guest in usedguests" v-bind:guest="guest"></guest-detail-view>
     </div>
@@ -58,8 +64,6 @@
        <button v-on:click="addGuest"><span class="icon icon-plus" ></span> Guest</button>
         <button v-on:click="addInvitation"><span class="icon icon-plus" ></span> Invitation</button>
       </div>
-        {{invitations.length}} Invitations & 
-        ({{numberofnonEaters.fulleater}}/{{numberofnonEaters.kidseater}}/{{numberofnonEaters.noneater}}) Guests
       <div class="btn-group">
       <button v-on:click="exportAllInvitations">Export all Invitation<br>
       <progress v-model="progress" max="1" class="pull-right" v-if="progress!=0 && progress!=1.0"></progress></button>
@@ -108,9 +112,13 @@
     <button class="btn btn-mini btn-default" v-on:click="genInvitationPackage(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''"> 
       Generate Package
     </button>
+    <div class="pull-right">
+    {{invitations.length}} Invitations for 
+        {{numberofnonEaters.fulleater}} Adults, {{numberofnonEaters.kidseater}} Kids and {{numberofnonEaters.noneater}} Babies
+      </div>
+</footer>
   </div>
 
-</footer>
 </div>
 
 

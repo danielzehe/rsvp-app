@@ -9,6 +9,7 @@ ipcRenderer.on('InvitationData',(evt, body)=>{
   v.invitation.invitationName = body.invitationName;
   v.invitation.lang = body.lang;
   v.invitation.inviteID = body.inviteID;
+  v.invitation.comment = body.comment;
   // v.invitation.guests = [];
   for(let guestid of body.guests){
     console.log(guestid);

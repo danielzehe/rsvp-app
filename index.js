@@ -10,7 +10,7 @@ let win
 let guests = [];
 let invitations = [];
 
-let api_endpoint = 'http://daniel:zehe@rsvp.danielwithsilver.com/API'
+let api_endpoint = 'https://daniel:zehe@rsvp.danielwithsilver.com/API'
 // let api_endpoint = 'http://daniel:zehe@localhost:3000/API'
 
 

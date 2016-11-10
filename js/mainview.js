@@ -213,6 +213,11 @@ Vue.component('invitation-list-item', {
 Vue.component('guest-detail-view',{
 	props:['guest'],
 	template:'#guest-detail-view-template',
+  data:function () {
+    return {
+      showqr: false
+    }
+  },
 	methods: {
 		getFlags: function(){
 			let emojies = this.guest.invitedto.map((element)=>{
@@ -232,7 +237,10 @@ Vue.component('guest-detail-view',{
 		},
 		getQRdata: function(){
 			return qr("http://rsvp.danielwithsilver.com/web/invitation/personID/b58/"+this.guest.personID,{type:6,size:6,level:'Q'});
-		}
+		},
+    toggleQR:function(){
+      this.showqr = !this.showqr;
+    }
 	}
 })
 
