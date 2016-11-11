@@ -313,6 +313,18 @@ exports.showGuestList = ()=>{
 
 }
 
+exports.showInvitationList = ()=>{
+  let invitationListWindow = new BrowserWindow({height:400,width:800});
+  invitationListWindow.loadURL(`file://${__dirname}/HTML/invitationListWindow.html`);
+  invitationListWindow.on('closed',()=>{
+    invitationListWindow = null;
+  })
+
+  invitationListWindow.webContents.once('did-finish-load',()=>{
+    invitationListWindow.webContents.send('invitations',invitations);
+  });
+}
+
 ipcMain.on('saveCard',(event,args) =>{
     console.log("Saving to "+args.folderpath);
 

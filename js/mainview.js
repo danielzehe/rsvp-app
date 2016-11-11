@@ -168,6 +168,9 @@ var v = new Vue({
     },
     showGuestList:function(){
       main.showGuestList();
+    },
+    showInvitationList:function(){
+      main.showInvitationList();
     }
    }
 });
