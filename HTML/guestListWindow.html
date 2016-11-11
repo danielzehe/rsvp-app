@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RSVP Guest List</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../lib/photon-0.1-2.2-dist/css/photon.min.css">
+	<link rel="stylesheet" href="../css/GuestListWindow.css">
+
+
+  </head>
+  <body>
+  	<div class="window" id="app">
+		<div class="dont-scroll" >
+<!-- 		  <table class="table-striped" style="width: 100%">
+		    <thead>
+		      <th>Name</th>
+		      <th>Family Name</th>
+		      <th>🇸🇬 🎉</th>
+		      <th>🇸🇬 💒</th>
+		      <th>🇩🇪 🎉</th>
+		    </thead>
+		    <tbody>
+		     <tr v-for="guest in guests">
+		     <td>{{guest.name}}</td>
+		     <td>{{guest.surname}}</td>
+		     <td><span >{{getAttendanceStatusforGuestatEvent(guest.personID,'SG')}}</span></td> 
+		     <td><span >{{getAttendanceStatusforGuestatEvent(guest.personID,'SGS')}}</span></td> 
+		     <td><span >{{getAttendanceStatusforGuestatEvent(guest.personID,'DE')}}</span></td> 
+		      </tr>
+		    </tbody>
+		  </table> -->
+		  <div style="display: flex;border-bottom: 2px solid black">
+		  	<div style="flex:1 ">Name</div>
+	    	<div style="flex:1 ">Family Name</div>
+	      	<div style="flex:1 ">🇸🇬 🎉</div>
+	      	<div style="flex:1 ">🇸🇬 💒</div>
+	      	<div style="flex:1 ">🇩🇪 🎉</div>
+	      </div>
+	      <div style="display: flex" v-for="guest in guests">
+		  	<div style="flex:1;">{{guest.name}}</div>
+	    	<div style="flex:1;border-left: 1px solid black ">{{guest.surname}}</div>
+	      	<div style="flex:1;border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest.personID,'SG')}}</div>
+	      	<div style="flex:1;border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest.personID,'SGS')}}</div>
+	      	<div style="flex:1;border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest.personID,'DE')}}</div>
+	      </div>
+
+
+	  </div>
+	  <footer class="toolbar toolbar-footer no-print" style="flex: none">
+	  	<div class="toolbar-actions">
+	  		<button class="btn btn-mini btn-default" v-on:click="print">print</button>
+	  	</div>
+	  </footer>
+    </div>
+  <script src="../js/guestListWindow.js" charset="utf-8"></script>
+  </body>
+</html>

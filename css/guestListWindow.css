@@ -1,0 +1,16 @@
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    .dont-scroll{
+    	overflow-y: visible;
+    }
+}
+@media screen{
+	.dont-scroll{
+		overflow-y: scroll;
+	}
+}

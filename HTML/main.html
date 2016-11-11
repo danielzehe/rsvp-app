@@ -48,10 +48,12 @@
     <div style="flex:1 ">
       <div style="display: flex;">
         <h1 style="flex:1">{{invitation.invitationName}}</h1>
+        
       </div>
       <div style="white-space: pre-line;">
         {{invitation.comment}}
       </div>
+      <div v-if="getRSVPTime!=null">RSVPed at: {{getRSVPTime}}</div>
       <guest-detail-view style="border-bottom: 1px solid black" v-for="guest in usedguests" v-bind:guest="guest"></guest-detail-view>
     </div>
   </script>
@@ -67,6 +69,7 @@
       <div class="btn-group">
       <button v-on:click="exportAllInvitations">Export all Invitation<br>
       <progress v-model="progress" max="1" class="pull-right" v-if="progress!=0 && progress!=1.0"></progress></button>
+      <button v-on:click="showGuestList">Show Guest List</button>
       </div>
       <input class="pull-right" type="text" placeholder="Search" v-model="searchText">      
     </div>
@@ -112,14 +115,16 @@
     <button class="btn btn-mini btn-default" v-on:click="genInvitationPackage(currentInvitation.inviteID)" v-if="currentSelectedInvitationID!=''"> 
       Generate Package
     </button>
+      
     <div class="pull-right">
     {{invitations.length}} Invitations for 
         {{numberofnonEaters.fulleater}} Adults, {{numberofnonEaters.kidseater}} Kids and {{numberofnonEaters.noneater}} Babies
       </div>
-</footer>
-  </div>
+      </div>
+    </footer>
 
-</div>
+
+  </div>
 
 
 

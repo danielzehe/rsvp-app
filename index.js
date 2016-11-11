@@ -198,6 +198,29 @@ exports.getGuest = (personID) =>{
   return returnguest;
 }
 
+exports.getInvitation = (inviteID) =>{
+    let returnInvitation = invitations.find((invite) =>{
+    return invite.inviteID == inviteID;
+  });
+  return returnInvitation;
+}
+
+exports.getInvitationForGuest = (personID) =>{
+  // console.log(personID);
+  let returnInvitation = invitations.find((invite)=>{
+    let returnvalue=false;
+    for(let guest of invite.guests){
+      if (guest==personID){
+        // console.log(guest);
+        return true;
+      }
+    }
+    return returnvalue;
+  });
+  // console.log(returnInvitation);
+  return returnInvitation;
+}
+
 exports.getInvitations = () =>{
   getInvitationList()
 }
@@ -277,6 +300,19 @@ exports.openRSVPInvitationWindow = (inviteID)=>{
   })
 }
 
+exports.showGuestList = ()=>{
+  let guestListWindow = new BrowserWindow({height:400,width:800});
+  guestListWindow.loadURL(`file://${__dirname}/HTML/guestListWindow.html`);
+  guestListWindow.on('closed',()=>{
+    guestListWindow = null;
+  })
+
+  guestListWindow.webContents.once('did-finish-load',()=>{
+    guestListWindow.webContents.send('guests',guests);
+  });
+
+}
+
 ipcMain.on('saveCard',(event,args) =>{
     console.log("Saving to "+args.folderpath);
 
@@ -313,6 +349,12 @@ ipcMain.on('printCard',(event,args) =>{
     })
   })
 });
+
+
+ipcMain.on('printGuestList',(event,args) =>{
+  console.log("printing Guest List");
+  event.sender.webContents.print();
+})
 
 ipcMain.on('setAttendance', (event,attendanceObject) =>{
   console.log(attendanceObject)

@@ -165,6 +165,9 @@ var v = new Vue({
     },
     exportAllInvitations:function(){
       main.saveAllInvitationPackages();
+    },
+    showGuestList:function(){
+      main.showGuestList();
     }
    }
 });
@@ -195,14 +198,21 @@ Vue.component('invitation-list-item', {
   // This prop is called todo.
   name:"invitation-list-item",
   props: ['invitation'],
-  // template: '<li class="list-group-item" v-bind:value="guest.personID" v-on:click="clicking"><span class="icon icon-user" v-bind:value="guest.personID"></span><strong v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></li>',
-  template: '<li class="list-group-item" v-on:click="clicking"><div v-bind:value="invitation.inviteID"><span class="icon icon-users" ></span> {{invitation.invitationName}}</div></li>',
+  template: '<li class="list-group-item" v-on:click="clicking"><div v-bind:value="invitation.inviteID"><span v-bind:style="getHighlightStyle" class="icon icon-users" ></span> {{invitation.invitationName}}</div></li>',
   methods: {
     clicking: function (event) {
       // this.counter += 1
       // console.log('click '+ event.target.value);
 
       this.$emit('clicking',event.target.value);
+    }
+  },
+  computed:{
+    getHighlightStyle:function(){
+      if(this.invitation.rsvptime!=undefined){
+        return {color:'green'}
+      }
+
     }
   }
 })
@@ -247,4 +257,13 @@ Vue.component('guest-detail-view',{
 Vue.component('invitation-detail-view',{
   props:['invitation','usedguests'],
   template:'#invitation-detail-view-template',
+  computed:{
+    getRSVPTime:function(){
+      if(this.invitation.rsvptime!=undefined){
+        d = new Date(this.invitation.rsvptime)
+        return d.toLocaleDateString()+' '+d.toLocaleTimeString();
+      }
+      return null;
+    }
+  }
 })
