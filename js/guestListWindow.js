@@ -29,16 +29,19 @@ var v = new Vue({
 			  // console.log(invitation);
 			  if (invitation.rsvptime==undefined){
 			  	if(guest.invitedto.indexOf(event)!=-1){
-			  		return "❓"
+			  		return "?"
 			  	}
 			  }
 			  else{
 
 				  	if(guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)!=-1){
-			  			return "✅"
+			  			return "comming"
 			  		}
-			  		else{
-			  			return "❌"
+			  		else if (guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)==-1){
+			  			return "not comming"
+			  		}
+			  		else if (guest.invitedto.indexOf(event)==-1){
+			  			return ""
 			  		}
 				  	
 			  }
