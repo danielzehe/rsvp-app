@@ -47,8 +47,26 @@ var v = new Vue({
 			return main.getGuest(personID);
 
 		},
+
+		getPersonType:function(personID){
+			let guest = main.getGuest(personID);
+			console.log(guest);
+			if(guest.eatinggroup==1){
+				return "Baby";
+			}
+			else if(guest.eatinggroup==2){
+				return "Kid"
+			}
+			else{
+				return "Adult"
+			}
+		},
 		print:function(){
 			ipcRenderer.send('printGuestList');
-		}
+		},
+
+
+
+
 	}
 });
