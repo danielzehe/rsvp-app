@@ -52,8 +52,11 @@ ipcRenderer.on('InvitationData',(evt, body)=>{
 });
 
 function save(invitation,type){
-  ipcRenderer.send('saveCard',{"folderpath":folderpath+'/'+invitation.invitationName,"filename":invitation.inviteID+'_'+type})
+  setTimeout(function () {
+	  ipcRenderer.send('saveCard',{"folderpath":folderpath+'/'+invitation.invitationName,"filename":invitation.inviteID+'_'+type})
 
+  },300);	
+  
 }
 
 function renderInvitation_SG_EN(invitation,type){
