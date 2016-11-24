@@ -184,11 +184,11 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
   
   if(invitationSet.has("DE")){
     if(Invitation.lang.indexOf('de')!=-1){
-      cardRenderer(Invitation,folderpath[0],'DE_de');
+      cardRenderer(Invitation,folderpath[0],'DE_de',invitationSet.has("SG"));
       // renderInvitation_DE_DE();
     }
     else{
-      cardRenderer(Invitation,folderpath[0],'DE_en');
+      cardRenderer(Invitation,folderpath[0],'DE_en',invitationSet.has("SG"));
       // renderInvitation_DE_EN(); 
     }
     
@@ -196,11 +196,11 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
   if(invitationSet.has("SG")){
 
     if(Invitation.lang.indexOf('de')!=-1){
-      cardRenderer(Invitation,folderpath[0],'SG_de');
+      cardRenderer(Invitation,folderpath[0],'SG_de',false);
       // renderInvitation_SG_DE();
     }
     else{
-      cardRenderer(Invitation,folderpath[0],'SG_en');
+      cardRenderer(Invitation,folderpath[0],'SG_en',false);
       // renderInvitation_SG_EN();
     }
   }
@@ -227,7 +227,7 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
 
 }
 
-const cardRenderer = (invitation,folderpath,type) =>{
+const cardRenderer = (invitation,folderpath,type,withborder) =>{
   console.log("open renderer "+ type);
   exportProgressSet.add(invitation.inviteID+'_'+type);
   // console.log(exportProgressSet.size)
@@ -240,7 +240,7 @@ const cardRenderer = (invitation,folderpath,type) =>{
 
   cardRendererWindow.webContents.once('did-finish-load',()=>{
     console.log("sending info");
-    cardRendererWindow.webContents.send('InvitationData',{"invitation":invitation,"folderpath":folderpath,"type":type}); 
+    cardRendererWindow.webContents.send('InvitationData',{"invitation":invitation,"folderpath":folderpath,"type":type,"border":withborder}); 
         
   });
 }

@@ -22,16 +22,16 @@ ipcRenderer.on('InvitationData',(evt, body)=>{
 
   switch (type){
   	case "DE_de":
-  		renderInvitation_DE_DE(body.invitation,type);
+  		renderInvitation_DE_DE(body.invitation,type,body.border);
   		break;
   	case "DE_en":
-  		renderInvitation_DE_EN(body.invitation,type);
+  		renderInvitation_DE_EN(body.invitation,type,body.border);
   		break;
   	case "SG_de":
-  		renderInvitation_SG_DE(body.invitation,type);
+  		renderInvitation_SG_DE(body.invitation,type,body.border);
   		break;
   	case "SG_en":
-  		renderInvitation_SG_EN(body.invitation,type);
+  		renderInvitation_SG_EN(body.invitation,type,body.border);
   		break;
   	case "SGS_de":
   		renderSolemnization_DE(body.invitation,type);
@@ -59,12 +59,14 @@ function save(invitation,type){
   
 }
 
-function renderInvitation_SG_EN(invitation,type){
+function renderInvitation_SG_EN(invitation,type,border){
 	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_SG.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
-
+	  if(border){
+	  	document.querySelector('svg').style.border="1px dashed black";
+	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 
 
@@ -74,11 +76,14 @@ function renderInvitation_SG_EN(invitation,type){
 	});
 }
 
-function renderInvitation_SG_DE(invitation,type){
+function renderInvitation_SG_DE(invitation,type,border){
 	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_SG'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
+	  if(border){
+	  	document.querySelector('svg').style.border="1px dashed black";
+	  }
 
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
@@ -86,22 +91,27 @@ function renderInvitation_SG_DE(invitation,type){
 	});
 }
 
-function renderInvitation_DE_DE(invitation,type){
+function renderInvitation_DE_DE(invitation,type,border){
 	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_DE'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-	  console.log(invitation);
+	  if(border){
+	  	document.querySelector('svg').style.border="1px dashed black";
+	  }
+	  // console.log(invitation);
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
 	});
 }
 
-function renderInvitation_DE_EN(invitation,type){
+function renderInvitation_DE_EN(invitation,type,border){
 	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_DE.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-
+	  if(border){
+	  	document.querySelector('svg').style.border="1px dashed black";
+	  }
 
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
@@ -118,6 +128,7 @@ function renderInformation_DE(invitation,type){
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
 
+	  document.querySelector('svg').style.border="1px dashed black";
 	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
 	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
 	  save(invitation,type);
@@ -129,6 +140,7 @@ function renderInformation_EN(invitation,type){
 	  document.body.innerHTML = data;
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
+	  document.querySelector('svg').style.border="1px dashed black";
 	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
 	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
 	  document.getElementById("invite_name").innerHTML = 'Dear '+invitation.invitationName+',';
@@ -142,6 +154,7 @@ function renderSolemnization_DE(invitation,type){
 	fs.readFile(__dirname+'/../resources/Solemnization_German'+singleorcouple(invitation)+'.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
+	  document.querySelector('svg').style.border="1px dashed black";
 	  save(invitation,type);
 	});
 }
@@ -150,6 +163,7 @@ function renderSolemnization_EN(invitation,type){
 	fs.readFile(__dirname+'/../resources/Solemnization_English.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
+	  document.querySelector('svg').style.border="1px dashed black";
 	  save(invitation,type);
 
 	});
