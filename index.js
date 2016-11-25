@@ -231,7 +231,7 @@ const cardRenderer = (invitation,folderpath,type,withborder) =>{
   console.log("open renderer "+ type);
   exportProgressSet.add(invitation.inviteID+'_'+type);
   // console.log(exportProgressSet.size)
-  let cardRendererWindow = new BrowserWindow({width:1000,height:1000,frame:false,show: false});
+  let cardRendererWindow = new BrowserWindow({width:1053,height:1053,frame:false,show: true});
   // cardRendererWindow.webContents.openDevTools();
   cardRendererWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
   cardRendererWindow.on('closed',()=>{
@@ -389,7 +389,7 @@ ipcMain.on('saveCard',(event,args) =>{
 
     let folderpath = args.folderpath;
     let filename = args.filename;
-    event.sender.webContents.printToPDF({pageSize:{width:160000,height:160000},marginsType:1}, (error, data) => {
+    event.sender.webContents.printToPDF({pageSize:{width:179665,height:179665},marginsType:1}, (error, data) => {
     if (error) throw error
    
 
@@ -410,7 +410,7 @@ ipcMain.on('saveCard',(event,args) =>{
 
 ipcMain.on('printCard',(event,args) =>{
   console.log("printing "+args.filename);
-  event.sender.webContents.printToPDF({pageSize:{width:160000,height:160000},marginsType:1}, (error, data) => {
+  event.sender.webContents.printToPDF({pageSize:{width:179665,height:179665},marginsType:1}, (error, data) => {
     if (error) throw error
 
     var folderpath = dialog.showOpenDialog({buttonLabel:'Use folder',properties:['openDirectory'],title:'select a folder to output the invitations'});

@@ -67,6 +67,9 @@ function renderInvitation_SG_EN(invitation,type,border){
 	  if(border){
 	  	document.querySelector('svg').style.border="1px dashed black";
 	  }
+	  else{
+	  	type=type+'_main';
+	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 
 
@@ -84,7 +87,9 @@ function renderInvitation_SG_DE(invitation,type,border){
 	  if(border){
 	  	document.querySelector('svg').style.border="1px dashed black";
 	  }
-
+	  else{
+	  	type=type+'_main';
+	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
@@ -98,6 +103,9 @@ function renderInvitation_DE_DE(invitation,type,border){
 	  if(border){
 	  	document.querySelector('svg').style.border="1px dashed black";
 	  }
+	  else{
+	  	type=type+'_main';
+	  }
 	  // console.log(invitation);
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
@@ -106,13 +114,15 @@ function renderInvitation_DE_DE(invitation,type,border){
 }
 
 function renderInvitation_DE_EN(invitation,type,border){
-	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_DE.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_DE_2.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 	  if(border){
-	  	document.querySelector('svg').style.border="1px dashed black";
+	  	// document.querySelector('svg').style.border="1px dashed black";
 	  }
-
+	  else{
+	  	type=type+'_main';
+	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
