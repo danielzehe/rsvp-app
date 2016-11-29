@@ -131,7 +131,7 @@ exports.saveAllInvitationPackages = () =>{
 
     exportQueue.push({id:invite.inviteID,fp:folderpath});
 
-    console.log(counter++ + "of " + invitations.length);
+    console.log(counter++ + "of " + invitations.length + "-" +invite.invitationName);
   }
   scheduleNext();
 }
@@ -140,7 +140,7 @@ exports.saveAllInvitationPackages = () =>{
 const scheduleNext = () =>{
   console.log('progress set is '+exportProgressSet.size);
   win.webContents.send('progressUpdate',((invitations.length-exportQueue.length))/invitations.length);
-  while(exportProgressSet.size<10){
+  while(exportProgressSet.size<4){
     if(exportQueue.length!=0){
       let nextobject = exportQueue.pop();
       console.log("doing "+ JSON.stringify(nextobject));
@@ -231,7 +231,7 @@ const cardRenderer = (invitation,folderpath,type,withborder) =>{
   console.log("open renderer "+ type);
   exportProgressSet.add(invitation.inviteID+'_'+type);
   // console.log(exportProgressSet.size)
-  let cardRendererWindow = new BrowserWindow({width:1053,height:1053,frame:false,show: true});
+  let cardRendererWindow = new BrowserWindow({width:1053,height:1053,frame:false,show: false});
   // cardRendererWindow.webContents.openDevTools();
   cardRendererWindow.loadURL(`file://${__dirname}/HTML/showSVGInvitationWindow.html`)
   cardRendererWindow.on('closed',()=>{
@@ -405,7 +405,15 @@ ipcMain.on('saveCard',(event,args) =>{
     fs.writeFile(folderpath+'/'+filename+'.pdf', data, (error) => {
       if (error) throw error
       console.log('Write PDF successfully.')
-      console.log(exportProgressSet.delete(filename));
+
+      if(ismain){
+        console.log(exportProgressSet.delete(filename.substr(0,filename.length-5)));
+      }
+      else{
+         console.log(exportProgressSet.delete(filename));
+      }
+
+      
       scheduleNext();
       event.sender.executeJavaScript('window.close()');
     })
