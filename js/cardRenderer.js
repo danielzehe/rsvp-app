@@ -60,19 +60,23 @@ function save(invitation,type){
 }
 
 function renderInvitation_SG_EN(invitation,type,border){
-	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_SG.svg', (err, data) => {
+
+	let filename;
+
+	if(border){
+		filename = __dirname+'/../resources/Invitation_English_Reception_SG_marked.svg';
+	}
+	else{
+		filename = __dirname+'/../resources/Invitation_English_Reception_SG.svg'
+		type=type+'_main';
+	}
+
+
+	fs.readFile(filename, (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
-	  if(border){
-	  	document.querySelector('svg').style.border="1px dashed black";
-	  }
-	  else{
-	  	type=type+'_main';
-	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
-
-
 	  // document.getElementById("secondbody").getElementById("XMLID_168_").innerHTML = "HTETLSLFDF";
 	  
 	  save(invitation,type);
@@ -80,16 +84,22 @@ function renderInvitation_SG_EN(invitation,type,border){
 }
 
 function renderInvitation_SG_DE(invitation,type,border){
-	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_SG'+singleorcouple(invitation)+'.svg', (err, data) => {
+
+	let filename;
+
+	if(border){
+		filename = __dirname+'/../resources/Invitation_German_Reception_SG'+singleorcouple(invitation)+'_marked.svg';
+	}
+	else{
+		filename = __dirname+'/../resources/Invitation_German_Reception_SG'+singleorcouple(invitation)+'.svg';
+		type=type+'_main';
+	}
+
+
+	fs.readFile(filename, (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
-	  if(border){
-	  	document.querySelector('svg').style.border="1px dashed black";
-	  }
-	  else{
-	  	type=type+'_main';
-	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
@@ -97,15 +107,20 @@ function renderInvitation_SG_DE(invitation,type,border){
 }
 
 function renderInvitation_DE_DE(invitation,type,border){
-	fs.readFile(__dirname+'/../resources/Invitation_German_Reception_DE'+singleorcouple(invitation)+'.svg', (err, data) => {
+
+	let filename;
+
+	if(border){
+		filename = __dirname+'/../resources/Invitation_German_Reception_DE'+singleorcouple(invitation)+'_marked.svg';
+	}
+	else{
+		filename = __dirname+'/../resources/Invitation_German_Reception_DE'+singleorcouple(invitation)+'.svg';
+		type=type+'_main';
+	}
+
+	fs.readFile(filename, (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-	  if(border){
-	  	document.querySelector('svg').style.border="1px dashed black";
-	  }
-	  else{
-	  	type=type+'_main';
-	  }
 	  // console.log(invitation);
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
@@ -114,15 +129,21 @@ function renderInvitation_DE_DE(invitation,type,border){
 }
 
 function renderInvitation_DE_EN(invitation,type,border){
-	fs.readFile(__dirname+'/../resources/Invitation_English_Reception_DE_2.svg', (err, data) => {
+
+	let filename;
+
+	if(border){
+		filename = __dirname+'/../resources/Invitation_English_Reception_DE_marked.svg';
+	}
+	else{
+		filename = __dirname+'/../resources/Invitation_English_Reception_DE.svg';
+		type=type+'_main';
+	}
+
+
+	fs.readFile(filename, (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-	  if(border){
-	  	// document.querySelector('svg').style.border="1px dashed black";
-	  }
-	  else{
-	  	type=type+'_main';
-	  }
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  save(invitation,type);
 
@@ -132,25 +153,26 @@ function renderInvitation_DE_EN(invitation,type,border){
 
 
 function renderInformation_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Information_German'+singleorcouple(invitation)+'.svg', (err, data) => {
+
+	fs.readFile(__dirname+'/../resources/Information_German'+singleorcouple(invitation)+'_marked.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
 
-	  document.querySelector('svg').style.border="1px dashed black";
+	  // document.querySelector('svg').style.border="1px dashed black";
 	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
 	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
 	  save(invitation,type);
 	});
 }
 function renderInformation_EN(invitation,type){
-	fs.readFile(__dirname+'/../resources/RSVP_English.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/RSVP_English_marked.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
 
 	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
-	  document.querySelector('svg').style.border="1px dashed black";
+	  // document.querySelector('svg').style.border="1px dashed black";
 	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
 	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
 	  document.getElementById("invite_name").innerHTML = 'Dear '+invitation.invitationName+',';
@@ -161,19 +183,19 @@ function renderInformation_EN(invitation,type){
 
 
 function renderSolemnization_DE(invitation,type){
-	fs.readFile(__dirname+'/../resources/Solemnization_German'+singleorcouple(invitation)+'.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Solemnization_German'+singleorcouple(invitation)+'_marked.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-	  document.querySelector('svg').style.border="1px dashed black";
+	  // document.querySelector('svg').style.border="1px dashed black";
 	  save(invitation,type);
 	});
 }
 
 function renderSolemnization_EN(invitation,type){
-	fs.readFile(__dirname+'/../resources/Solemnization_English.svg', (err, data) => {
+	fs.readFile(__dirname+'/../resources/Solemnization_English_marked.svg', (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
-	  document.querySelector('svg').style.border="1px dashed black";
+	  // document.querySelector('svg').style.border="1px dashed black";
 	  save(invitation,type);
 
 	});
