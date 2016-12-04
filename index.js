@@ -185,10 +185,14 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
   if(invitationSet.has("DE")){
     if(Invitation.lang.indexOf('de')!=-1){
       cardRenderer(Invitation,folderpath[0],'DE_de',invitationSet.has("SG"));
+      cardRenderer(Invitation,folderpath[0],'Info_de');
       // renderInvitation_DE_DE();
     }
     else{
       cardRenderer(Invitation,folderpath[0],'DE_en',invitationSet.has("SG"));
+
+
+      cardRenderer(Invitation,folderpath[0],'Info_en');
       // renderInvitation_DE_EN(); 
     }
     
@@ -198,9 +202,11 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
     if(Invitation.lang.indexOf('de')!=-1){
       cardRenderer(Invitation,folderpath[0],'SG_de',false);
       // renderInvitation_SG_DE();
+      cardRenderer(Invitation,folderpath[0],'Info_de');
     }
     else{
       cardRenderer(Invitation,folderpath[0],'SG_en',false);
+      cardRenderer(Invitation,folderpath[0],'RSVP_en');
       // renderInvitation_SG_EN();
     }
   }
@@ -216,14 +222,14 @@ exports.saveInvitationPackageWithFolderName = (inviteID,folderpath) =>{
   }
 
 
-  if(Invitation.lang.indexOf('de')!=-1){
-      cardRenderer(Invitation,folderpath[0],'Info_de');
+  // if(Invitation.lang.indexOf('de')!=-1){
+  //     cardRenderer(Invitation,folderpath[0],'Info_de');
     
-  }
-  else {
-      cardRenderer(Invitation,folderpath[0],'Info_en');
+  // }
+  // else {
+  //     cardRenderer(Invitation,folderpath[0],'RSVP_en');
     
-  }
+  // }
 
 }
 

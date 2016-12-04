@@ -43,6 +43,10 @@ ipcRenderer.on('InvitationData',(evt, body)=>{
   		renderInformation_DE(body.invitation,type);
   		break;
   	case "Info_en":
+  		renderInformation_DE_en(body.invitation,type);
+  		break;
+
+  	case "RSVP_en":
   		renderInformation_EN(body.invitation,type);
   		break;
   }
@@ -150,6 +154,20 @@ function renderInvitation_DE_EN(invitation,type,border){
 	});
 }
 
+function renderInformation_DE_en(invitation,type){
+
+	fs.readFile(__dirname+'/../resources/Information_English_marked.svg', (err, data) => {
+	  if (err) throw err;
+	  document.body.innerHTML = data;
+
+	  let qrcode = qr("http://rsvp.danielwithsilver.com/web/invitation/inviteID/b58/"+invitation.inviteID,{type:6,size:32,level:'Q'});
+
+	  // document.querySelector('svg').style.border="1px dashed black";
+	  document.getElementById("qr_code").setAttribute("xlink:href",qrcode);
+	  document.getElementById("invite_id").innerHTML = invitation.inviteID;
+	  save(invitation,type);
+	});
+}
 
 
 function renderInformation_DE(invitation,type){
