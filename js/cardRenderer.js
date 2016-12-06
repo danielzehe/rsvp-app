@@ -79,6 +79,7 @@ function renderInvitation_SG_EN(invitation,type,border){
 	fs.readFile(filename, (err, data) => {
 	  if (err) throw err;
 	  document.body.innerHTML = data;
+	  // document.querySelector('svg').style.border="1px dashed black";
 
 	  document.getElementById("invite_name").innerHTML = invitation.invitationName;
 	  // document.getElementById("secondbody").getElementById("XMLID_168_").innerHTML = "HTETLSLFDF";

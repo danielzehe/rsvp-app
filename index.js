@@ -396,9 +396,11 @@ ipcMain.on('saveCard',(event,args) =>{
     let folderpath = args.folderpath;
     let filename = args.filename;
     let ismain = filename.substr(filename.length-4)=='main';
-    let size =160000;
+    // let size =160000;
+    let size = 155000;
     if(!ismain){
-      size = 179665;
+      // size = 179665;
+      size = 174050
     }
     event.sender.webContents.printToPDF({pageSize:{width:size,height:size},marginsType:1}, (error, data) => {
     if (error) throw error
