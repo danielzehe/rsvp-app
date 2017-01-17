@@ -181,7 +181,7 @@ Vue.component('guest-list-item', {
   // This prop is called todo.
   name:"guest-list-item",
   props: ['guest','isactive'],
-  template: '<li draggable="true" @dragstart="start" class="list-group-item" v-bind:class="{active:isactive}" style="padding:2px 5px;"  v-on:click="clicking"><div v-bind:value="guest.personID"><strong  v-bind:value="guest.personID">{{guest.name}} {{guest.surname}}</strong></div></li>',
+  template: '<li draggable="true" @dragstart="start" class="list-group-item" v-bind:class="{active:isactive}" style="padding:2px 5px;"  v-on:click="clicking"><div v-bind:value="guest.personID"><strong  v-bind:value="guest.personID">{{guest.name}} {{guest.surname}} {{isBaby()}}</strong></div></li>',
   methods: {
     clicking: function (event) {
       // this.counter += 1
@@ -191,7 +191,15 @@ Vue.component('guest-list-item', {
     },
     start: function(event){
       event.dataTransfer.setData("application/json",JSON.stringify(this.guest));
-    }    
+    },
+    isBaby : function(event){
+      if(this.guest.eatinggroup==1){
+        return "🐣";
+      }
+      else if( this.guest.eatinggroup==2){
+        return "🐥";
+      }
+    }   
   }
 })
 

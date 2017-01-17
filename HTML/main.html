@@ -15,6 +15,9 @@
       <h1 style="flex:1">{{guest.name}} {{guest.surname}}</h1>
 
     </div>
+    <div>
+      {{guest.dietaryRestrictions}}
+    </div>
     <div style="display: flex;">
       <div style="flex-grow: 0;min-width: 25%">
         <h3>Address</h3>
@@ -47,7 +50,7 @@
   <script type="text/x-template" id="invitation-detail-view-template">
     <div style="flex:1 ">
       <div style="display: flex;">
-        <h1 style="flex:1">{{invitation.invitationName}}</h1>
+        <h1 style="flex:1">{{invitation.invitationName}} - {{invitation.inviteID}}</h1>
         
       </div>
       <div style="white-space: pre-line;">
