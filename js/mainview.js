@@ -26,6 +26,7 @@ ipcRenderer.on('progressUpdate',(evt, body)=>{
   v.progress = body;
 });
 
+
 // console.log(guests);
 var v = new Vue({
   el: '#app',
@@ -126,6 +127,10 @@ var v = new Vue({
     }
   },
   methods:{
+    showhome:function(){
+      this.currentSelectedGuestID = '';
+      this.currentSelectedInvitationID = '';
+    },
   	addGuest:function(){
   		main.openAddGuestWindow();
   	},
@@ -228,6 +233,78 @@ Vue.component('invitation-list-item', {
   }
 })
 
+Vue.component('home-view',{
+  template:'#home-view-template',
+  props:['guests'],
+  data:function(){
+    return {};  
+  },
+  methods:{
+    getPercentComing:function(weddinglocation){
+      var invitedCount = 0;
+      var comingCount = 0;
+      for(guest of this.guests){
+        if(guest.invitedto.indexOf(weddinglocation)!=-1)
+        {
+          invitedCount+=1;
+        }
+        if(guest.attending!==undefined && guest.attending.indexOf(weddinglocation)!=-1){
+          comingCount+=1;
+        }
+      }
+      return 100*(comingCount/invitedCount);
+    },
+    getInvitedCount: function(weddinglocation){
+      var invitedCount = 0;
+      for(guest of this.guests){
+        if(guest.invitedto.indexOf(weddinglocation)!=-1)
+        {
+          invitedCount+=1;
+        }
+      }
+      return invitedCount;  
+    },
+    getComingCount: function(weddinglocation){
+      var comingCount = 0;
+      for(guest of this.guests){
+        if(guest.attending!==undefined && guest.attending.indexOf(weddinglocation)!=-1){
+          comingCount+=1;
+        }
+      }
+      return comingCount;
+    },
+    getNotRSVPCount: function(weddinglocation){
+      var count =0;
+      for(guest of this.guests){
+        if(guest.attending===undefined && guest.invitedto.indexOf(weddinglocation)!=-1){
+          count+=1;
+        }
+      }
+      return count;
+    },
+    getNotComingCount:function(weddinglocation){
+      var count = 0;
+      for(guest of this.guests){
+        if(guest.attending!==undefined && guest.invitedto.indexOf(weddinglocation)!=-1 && guest.attending.indexOf(weddinglocation)==-1){
+          count+=1;
+          console.log(guest.name +' '+ guest.surname)
+        }
+      }
+      return count;
+    }
+
+  },
+  computed:{
+    getTimeLeft:function(){
+      wd = new Date(2017,4,6,17,30,00,00);
+      console.log(wd)
+      now = new Date();
+      remaining = wd-now;
+      return Math.floor(remaining/(1000*60*60*24))
+    }
+    
+  }
+})
 
 
 
