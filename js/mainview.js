@@ -287,7 +287,7 @@ Vue.component('home-view',{
       for(guest of this.guests){
         if(guest.attending!==undefined && guest.invitedto.indexOf(weddinglocation)!=-1 && guest.attending.indexOf(weddinglocation)==-1){
           count+=1;
-          console.log(guest.name +' '+ guest.surname)
+          // console.log(guest.name +' '+ guest.surname)
         }
       }
       return count;
@@ -338,7 +338,15 @@ Vue.component('guest-detail-view',{
 		},
     toggleQR:function(){
       this.showqr = !this.showqr;
-    }
+    },
+    isBaby : function(event){
+      if(this.guest.eatinggroup==1){
+        return "🐣";
+      }
+      else if( this.guest.eatinggroup==2){
+        return "🐥";
+      }
+    }   
 	}
 })
 
