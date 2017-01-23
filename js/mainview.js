@@ -291,6 +291,15 @@ Vue.component('home-view',{
         }
       }
       return count;
+    },
+    guestsonSide(side){
+      
+      var returnguests = this.guests.filter(function(guest){
+
+        return parseInt(guest.familyside)==side;
+
+      }) 
+      return returnguests;
     }
 
   },
