@@ -32,10 +32,10 @@ var v = new Vue({
 			  else{
 
 				  	if(guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)!=-1){
-			  			return "comming"
+			  			return "coming"
 			  		}
 			  		else if (guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)==-1){
-			  			return "not comming"
+			  			return "not coming"
 			  		}
 			  		else if (guest.invitedto.indexOf(event)==-1){
 			  			return ""
@@ -61,6 +61,15 @@ var v = new Vue({
 				return "Adult"
 			}
 		},
+		
+		getRSVPTime:function(invitation){
+			if(invitation.rsvptime!=undefined){
+		        d = new Date(invitation.rsvptime)
+		        return d.toLocaleDateString()+' '+d.toLocaleTimeString();
+		      }
+		      return "--";
+		},
+
 		print:function(){
 			ipcRenderer.send('printGuestList');
 		},

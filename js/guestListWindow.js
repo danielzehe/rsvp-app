@@ -35,10 +35,10 @@ var v = new Vue({
 			  else{
 
 				  	if(guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)!=-1){
-			  			return "comming"
+			  			return "coming"
 			  		}
 			  		else if (guest.invitedto.indexOf(event)!=-1 && guest.attending.indexOf(event)==-1){
-			  			return "not comming"
+			  			return "not coming"
 			  		}
 			  		else if (guest.invitedto.indexOf(event)==-1){
 			  			return ""

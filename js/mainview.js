@@ -235,7 +235,7 @@ Vue.component('invitation-list-item', {
 
 Vue.component('home-view',{
   template:'#home-view-template',
-  props:['guests'],
+  props:['guests','invitations'],
   data:function(){
     return {};  
   },
@@ -285,9 +285,14 @@ Vue.component('home-view',{
     getNotComingCount:function(weddinglocation){
       var count = 0;
       for(guest of this.guests){
-        if(guest.attending!==undefined && guest.invitedto.indexOf(weddinglocation)!=-1 && guest.attending.indexOf(weddinglocation)==-1){
+
+
+
+        
+        if(guest.attending!==undefined && guest.invitedto.indexOf(weddinglocation)!=-1 && guest.attending.indexOf(weddinglocation)==-1 ){
           count+=1;
-          // console.log(guest.name +' '+ guest.surname)
+          console.log("not comming "+weddinglocation+':')
+          console.log( guest.name +' '+ guest.surname)
         }
       }
       return count;

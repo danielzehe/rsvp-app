@@ -72,7 +72,7 @@
           <div style="display: flex">
             <div style="flex-grow:1 "><strong>Coming</strong></div>
             <div style="flex-grow:1 "><strong>not RSVP</strong></div>
-            <div style="flex-grow:1 "><strong>not Comming</strong></div>
+            <div style="flex-grow:1 "><strong>not Coming</strong></div>
           </div>
           <div style="display: flex">
             <div style="flex-grow: 1">
@@ -90,7 +90,7 @@
           <div style="display: flex">
             <div style="flex-grow:1 "><strong>Coming</strong></div>
             <div style="flex-grow:1 "><strong>not RSVP</strong></div>
-            <div style="flex-grow:1 "><strong>not Comming</strong></div>
+            <div style="flex-grow:1 "><strong>not Coming</strong></div>
           </div>
           <div style="display: flex">
             <div style="flex-grow: 1">
@@ -107,7 +107,7 @@
           <div style="display: flex">
             <div style="flex-grow:1 "><strong>Coming</strong></div>
             <div style="flex-grow:1 "><strong>not RSVP</strong></div>
-            <div style="flex-grow:1 "><strong>not Comming</strong>  </div>
+            <div style="flex-grow:1 "><strong>not Coming</strong>  </div>
           </div>
           <div style="display: flex">
             <div style="flex-grow: 1">
@@ -167,7 +167,7 @@
       </ul>
       </div>
       <div class="pane" style="display: flex;min-height: 100%;flex-direction: column;">
-        <home-view v-bind:guests="guests" v-if="currentSelectedGuestID=='' && currentSelectedInvitationID==''" ></home-view>
+        <home-view v-bind:guests="guests" v-bind:invitations="invitations" v-if="currentSelectedGuestID=='' && currentSelectedInvitationID==''" ></home-view>
         <guest-detail-view  v-bind:guest="currentGuest" v-if="currentSelectedGuestID!=''"></guest-detail-view >
         <invitation-detail-view v-bind:invitation="currentInvitation" v-bind:usedguests="guestsinInvitation" v-if="currentSelectedInvitationID!=''"></invitation-detail-view>
      </div>

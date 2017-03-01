@@ -38,17 +38,25 @@
 		      	<div style="flex:1"><strong>Singapore Reception</strong></div>
 		      	<div style="flex:1"><strong>Singapore Solemnization</strong></div>
 		      	<div style="flex:1"><strong>German Reception</strong></div>
+		      	<div style="flex:1"><strong>Comments</strong></div>
+		      	<div style="flex:1"><strong>Food Restrictions</strong></div>
+		      	
 	      	</div>
 	      	<div style="display:flex;border-bottom: 1px solid black;margin-bottom: 5px" v-for="invitation in invitations">
-	      		<div style="flex:1">{{invitation.invitationName}}</div>
-	      		<div style="flex:6;display: flex;flex-direction: column">
+	      		<div style="flex:1">{{invitation.invitationName}}<br/>
+	      			{{getRSVPTime(invitation)}}
+
+	      		</div>
+	      		<div style="flex:8;display: flex;flex-direction: column">
 	      			<div style="flex:1;display: flex;flex-direction: row; border-bottom: 1px solid grey" v-for="guest in invitation.guests">
 	      				<div style="flex:1">{{getGuest(guest).name}}</div>
 	      				<div style="flex:1">{{getGuest(guest).surname}}</div>
 	      				<div style="flex:1">{{getPersonType(guest)}}</div>
 	      				<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest,'SG')}}</div>
-	      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest,'SGS')}}</div>
-	      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest,'DE')}}</div>
+				      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest,'SGS')}}</div>
+				      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getAttendanceStatusforGuestatEvent(guest,'DE')}}</div>
+				      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{invitation.comment}}</div>
+				      	<div style="flex:1;text-align: center; border-left: 1px solid black ">{{getGuest(guest).dietaryRestrictions}}</div>
 	      			</div>
 	      		</div>
 	      	</div>
